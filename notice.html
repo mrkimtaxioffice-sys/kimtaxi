@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>공지사항 | 김군 개인택시 상담소</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header (script.js가 자동 삽입) -->
+  <div id="header"></div>
+
+  <!-- Hero Section -->
+  <section class="notice-hero">
+      <img src="공지사항.jpeg" class="hero-bg">
+
+      <div class="overlay"></div>
+
+      <div class="hero-inner">
+        <h1>공지사항</h1>
+        <p>김군 개인택시 상담소의 주요 소식과 안내 사항을 확인하세요.</p>
+      </div>
+  </section>
+
+
+  <!-- 관리자 로그인 박스 -->
+  <section id="adminLoginSection" style="display:none; margin-top:30px;">
+    <div class="container">
+      <div class="admin-login-box card">
+        <h3>관리자 로그인</h3>
+        <input type="password" id="adminPassword" placeholder="관리자 비밀번호 입력" />
+        <button id="adminLoginBtn" class="btn">로그인</button>
+        <p id="loginMsg" style="color:red; margin-top:10px;"></p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 공지 리스트 -->
+  <section class="notice-section">
+    <div class="container" id="noticeContainer">
+
+      <!-- 공지 없음 표시 -->
+      <div class="no-notice fade-up" id="noNoticeBox" style="display:none;">
+        <h3>아직 등록된 공지사항이 없습니다</h3>
+        <p>새로운 소식이 등록되면 이곳에 표시됩니다.</p>
+      </div>
+
+      <!-- 공지 리스트 출력 -->
+      <div id="noticeList"></div>
+
+      <!-- 관리자 모드: 공지 작성 -->
+      <div id="adminWriteSection" style="display:none; margin-top:40px;">
+        <div class="card">
+          <h3>📌 새 공지 작성</h3>
+          <input type="text" id="newTitle" placeholder="공지 제목" />
+          <textarea id="newContent" placeholder="공지 내용"></textarea>
+          <button id="saveNoticeBtn" class="btn">공지 등록</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Footer (script.js가 자동 삽입) -->
+  <div id="footer"></div>
+
+
+  <!-- 공통 script.js -->
+  <script src="script.js"></script>
+
+
+  <!-- Notice 전용 스크립트 -->
+  <script>
+    /* ===============================
+        관리자 모드 여부
+    =============================== */
+    const params = new URLSearchParams(window.location.search);
+    const isAdminMode = params.get("admin") === "1";
+
+    if (isAdminMode) {
+      document.getElementById("adminLoginSection").style.display = "block";
+    }
+
+    /* ===============================
+        공지 데이터 불러오기
+    =============================== */
+    let noticeData = JSON.parse(localStorage.getItem("taxi_notice")) || [];
+    let isLoggedIn = false;
+
+    /* ===============================
+        공지 렌더링 함수
+    =============================== */
+    function renderNotice() {
+      const listDiv = document.getElementById("noticeList");
+      const noBox = document.getElementById("noNoticeBox");
+
+      listDiv.innerHTML = "";
+
+      if (noticeData.length === 0) {
+        noBox.style.display = "block";
+      } else {
+        noBox.style.display = "none";
+      }
+
+      noticeData.forEach((n, i) => {
+        listDiv.innerHTML += `
+          <div class="notice-card fade-up">
+            <h3>${n.title}</h3>
+            <p>${n.content.replace(/\n/g, "<br>")}</p>
+            <span class="date">${n.date}</span>
+
+            ${isLoggedIn ? `
+              <div class="admin-btns" style="margin-top:10px;">
+                <button onclick="editNotice(${i})" class="btn small">수정</button>
+                <button onclick="deleteNotice(${i})" class="btn small red">삭제</button>
+              </div>` : ""}
+          </div>
+        `;
+      });
+
+      // fade-up 적용
+      document.querySelectorAll(".fade-up").forEach(el => {
+        setTimeout(() => el.classList.add("visible"), 120);
+      });
+    }
+
+
+    /* ===============================
+        관리자 로그인
+    =============================== */
+    const adminPassword = "taxi9156";
+
+    document.getElementById("adminLoginBtn")?.addEventListener("click", () => {
+      const inputPw = document.getElementById("adminPassword").value;
+
+      if (inputPw === adminPassword) {
+        isLoggedIn = true;
+        document.getElementById("adminLoginSection").style.display = "none";
+        document.getElementById("adminWriteSection").style.display = "block";
+        renderNotice();
+      } else {
+        document.getElementById("loginMsg").textContent = "비밀번호가 일치하지 않습니다.";
+      }
+    });
+
+
+    /* ===============================
+        공지 저장
+    =============================== */
+    document.getElementById("saveNoticeBtn")?.addEventListener("click", () => {
+      const title = document.getElementById("newTitle").value.trim();
+      const content = document.getElementById("newContent").value.trim();
+
+      if (!title || !content) return alert("제목과 내용을 입력하세요.");
+
+      noticeData.unshift({
+        title,
+        content,
+        date: new Date().toISOString().slice(0, 10)
+      });
+
+      localStorage.setItem("taxi_notice", JSON.stringify(noticeData));
+      renderNotice();
+    });
+
+
+    /* ===============================
+        공지 삭제
+    =============================== */
+    function deleteNotice(idx) {
+      if (!confirm("정말 삭제할까요?")) return;
+      noticeData.splice(idx, 1);
+      localStorage.setItem("taxi_notice", JSON.stringify(noticeData));
+      renderNotice();
+    }
+
+
+    /* ===============================
+        공지 수정
+    =============================== */
+    function editNotice(idx) {
+      const target = noticeData[idx];
+      const newTitle = prompt("새 제목 입력", target.title);
+      const newContent = prompt("새 내용 입력", target.content);
+
+      if (!newTitle || !newContent) return;
+
+      noticeData[idx] = {
+        ...target,
+        title: newTitle,
+        content: newContent
+      };
+
+      localStorage.setItem("taxi_notice", JSON.stringify(noticeData));
+      renderNotice();
+    }
+
+
+    /* 초기 렌더링 */
+    renderNotice();
+  </script>
+
+</body>
+</html>

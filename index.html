@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김군개인택시 상담소</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    .toggle-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .toggle-buttons button {
+      padding: 10px 24px;
+      border-radius: 30px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      background: #ddd;
+      transition: 0.3s;
+    }
+    .toggle-buttons button.active {
+      background: #ffb300;
+      color: white;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+    #formContent {
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div id="header"></div>
+
+  <!-- 🎥 Hero 영상 -->
+  <section class="hero">
+    <video autoplay muted loop playsinline class="bg-video">
+      <source src="광안리 택시.mp4" type="video/mp4" />
+      브라우저가 영상을 지원하지 않습니다.
+    </video>
+    <div class="overlay"></div>
+    <div class="hero-text">
+      <h1>NO.1 프리미엄 개인택시 양도·양수 중개소</h1>
+      <p>김군개인택시 상담소와 함께하세요</p>
+      <a href="#consult" class="btn consult">상담하기</a>
+    </div>
+  </section>
+
+  <!-- 📝 상담 신청 -->
+  <section id="consult" class="consult-section">
+    <div class="container">
+      <div class="form-area">
+        <h2>📄 상담 신청</h2>
+
+        <!-- ✅ 양도/양수 선택 버튼 -->
+        <div class="toggle-buttons">
+          <button id="btnSell" class="active">양도 신청</button>
+          <button id="btnBuy">양수 신청</button>
+        </div>
+
+        <form id="consultForm">
+          <div id="formContent"></div>
+
+          <div class="captcha-box">
+            <input type="text" id="captchaInput" placeholder="스팸 방지 코드 입력" />
+            <div class="captcha-code" id="captchaText">e8hre</div>
+          </div>
+
+          <label class="privacy">
+            <input type="checkbox" required /> 개인정보 수집에 동의합니다
+          </label>
+
+          <button type="submit" class="btn submit">상담 신청</button>
+          <p id="submitMsg" style="margin-top:10px;font-weight:bold;"></p>
+        </form>
+      </div>
+
+      <div class="list-area">
+        <h2>📌 실시간 상담 내역</h2>
+        <div class="scroll-list">
+          <ul id="fakeList">
+            <li>✅ 11월 04일 | 최**님 | 상담중</li>
+            <li>✅ 11월 04일 | 오**님 | 상담중</li>
+            <li>✅ 11월 04일 | 김**님 | 상담완료</li>
+            <li>✅ 11월 03일 | 이**님 | 상담중</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script>
+    // ✅ header/footer 자동삽입
+    window.addEventListener("load", () => {
+      fetch("header.html")
+        .then(res => res.text())
+        .then(html => (document.querySelector("#header").innerHTML = html));
+
+      fetch("footer.html")
+        .then(res => res.text())
+        .then(html => (document.querySelector("#footer").innerHTML = html));
+    });
+
+    // ✅ EmailJS 초기화
+    (function() {
+      emailjs.init("2iseJXtljrKVXtYDP"); // ← Public Key 입력
+    })();
+
+    const formArea = document.getElementById("formContent");
+    const btnSell = document.getElementById("btnSell");
+    const btnBuy = document.getElementById("btnBuy");
+    const msg = document.getElementById("submitMsg");
+
+    // ✅ 양도 신청 폼
+    const sellForm = `
+      <input type="hidden" id="type" value="양도 신청" />
+      <input type="text" id="name" placeholder="이름" required />
+      <input type="text" id="phone" placeholder="연락처 (예: 010-0000-0000)" required />
+      <input type="text" id="carModel" placeholder="차량모델명" required />
+      <input type="text" id="carNumber" placeholder="차량번호 (예: 36바1234)" required />
+      <input type="text" id="year" placeholder="연식 (예: 21년4월)" />
+      <input type="text" id="km" placeholder="키로수 (예: 50000)" />
+      <input type="text" id="region" value="부산" readonly />
+    `;
+
+    // ✅ 양수 신청 폼
+    const buyForm = `
+      <input type="hidden" id="type" value="양수 신청" />
+      <input type="text" id="name" placeholder="이름" required />
+      <input type="text" id="phone" placeholder="연락처 (예: 010-0000-0000)" required />
+      <input type="text" id="region" value="부산" readonly />
+      <select id="training">
+        <option value="미완료">양수자교육 미완료</option>
+        <option value="완료">양수자교육 완료</option>
+      </select>
+    `;
+
+    // ✅ 초기 양도 신청 폼 표시
+    formArea.innerHTML = sellForm;
+
+    // ✅ 폼 전환
+    btnSell.addEventListener("click", () => {
+      btnSell.classList.add("active");
+      btnBuy.classList.remove("active");
+      formArea.style.opacity = 0;
+      setTimeout(() => {
+        formArea.innerHTML = sellForm;
+        formArea.style.opacity = 1;
+      }, 150);
+      msg.textContent = "";
+    });
+
+    btnBuy.addEventListener("click", () => {
+      btnBuy.classList.add("active");
+      btnSell.classList.remove("active");
+      formArea.style.opacity = 0;
+      setTimeout(() => {
+        formArea.innerHTML = buyForm;
+        formArea.style.opacity = 1;
+      }, 150);
+      msg.textContent = "";
+    });
+
+    // ✅ 폼 전송
+    document.getElementById("consultForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      msg.textContent = "";
+
+      const captchaInput = document.getElementById("captchaInput").value.trim();
+      const captchaText = document.getElementById("captchaText").textContent.trim();
+      if (captchaInput !== captchaText) {
+        msg.textContent = "❌ 스팸 방지 코드가 일치하지 않습니다.";
+        msg.style.color = "red";
+        return;
+      }
+
+      const type = document.getElementById("type").value;
+      const params = {
+        title: `${type}`,
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value
+      };
+
+      if (type === "양도 신청") {
+        params.message = `
+          [${type}]
+          이름: ${document.getElementById("name").value}
+          연락처: ${document.getElementById("phone").value}
+          차량모델명: ${document.getElementById("carModel").value}
+          차량번호: ${document.getElementById("carNumber").value}
+          연식: ${document.getElementById("year").value}
+          키로수: ${document.getElementById("km").value}
+          지역: 부산
+        `;
+      } else {
+        params.message = `
+          [${type}]
+          이름: ${document.getElementById("name").value}
+          연락처: ${document.getElementById("phone").value}
+          지역: 부산
+          양수자교육: ${document.getElementById("training").value}
+        `;
+      }
+
+      // ✅ EmailJS 전송
+      emailjs.send("service_kimtaxi", "template_4yu2gna", params)
+        .then(() => {
+          msg.textContent = "✅ 상담 신청이 완료되었습니다.";
+          msg.style.color = "green";
+          document.getElementById("consultForm").reset();
+          document.getElementById("captchaInput").value = "";
+        })
+        .catch((error) => {
+          msg.textContent = "⚠️ 전송 중 오류가 발생했습니다. 다시 시도해주세요.";
+          msg.style.color = "red";
+          console.error("EmailJS Error:", error);
+        });
+    });
+  </script>
+</body>
+</html>
