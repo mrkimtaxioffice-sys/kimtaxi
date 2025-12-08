@@ -24,13 +24,9 @@ fetch("header.html")
 
 fetch("footer.html")
   .then(res => res.text())
-  .then(html => (document.querySelector("#footer").innerHTML = html));
-
-  fetch("footer.html")
-    .then((res) => res.text())
-    .then((html) => {
-      document.querySelector("#footer").innerHTML = html;
-    });
+  .then(html => {
+    document.querySelector("#footer").innerHTML = html;
+  });
 
   /* ================================
       2) 상담하기 버튼 스크롤 이동
@@ -104,4 +100,5 @@ document.addEventListener("click", (e) => {
     }
   }
 });
+
 
