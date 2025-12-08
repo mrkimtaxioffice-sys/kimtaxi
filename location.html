@@ -3,114 +3,108 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>오시는 길 | 김군개인택시 상담소</title>
+  <title>오시는 길 | 김군 개인택시 상담소</title>
   <link rel="stylesheet" href="style.css" />
 
+  <!-- 이 페이지용으로만 살짝 보조 스타일 -->
   <style>
-    /* =========================
-       Hero 배경 이미지 스타일
-    ========================== */
-    .location-hero {
-      position: relative;
-      height: 55vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #fff;
-    }
-
-    .location-hero img.hero-bg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.7);
-      z-index: -2;
-    }
-
-    .location-hero .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.35);
-      z-index: -1;
-    }
-
     .location-hero .hero-inner {
-      z-index: 2;
-      max-width: 800px;
+      max-width: 720px;
       padding: 0 20px;
     }
-
-    /* =========================
-       본문 이미지 스타일
-    ========================== */
-    .location-image {
-      width: 100%;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    .location-hero .hero-inner p {
+      max-width: 480px;
+      margin: 0 auto;
     }
 
-    .office-photo {
-      margin-top: 22px;
-      width: 100%;
-      max-width: 520px;
-      border-radius: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-      transition: 0.35s ease;
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    .info-list li {
+      font-size: 15px;
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    .info-list strong {
+      color: var(--primary);
+      margin-right: 4px;
     }
 
-    .office-photo:hover {
-      transform: scale(1.03);
-      opacity: 0.95;
+    .route-title {
+      margin: 18px 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .route-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      font-size: 14px;
+      color: #555;
+    }
+    .route-list li {
+      margin-bottom: 6px;
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
 
+  <!-- 공통 헤더 -->
   <div id="header"></div>
 
-  <!-- 🎥 Hero Section (이미지 추가) -->
+  <!-- ================================
+       Hero Section (배경 이미지)
+  ================================= -->
   <section class="location-hero">
     <img src="길.jpg" alt="부산 전경 이미지" class="hero-bg" />
     <div class="overlay"></div>
-    <div class="hero-inner">
-      <h1>📍 오시는 길</h1>
-      <p>김군개인택시 상담소로 편하게 방문하세요.</p>
+    <div class="hero-inner fade-up">
+      <p class="hero-eyebrow">LOCATION</p>
+      <h1>김군 개인택시 상담소 오시는 길</h1>
+      <p>방문 전 주소와 위치만 한 번 확인하시면 더 편하게 찾아오실 수 있습니다.</p>
     </div>
   </section>
 
-  <!-- 📌 Location Section -->
+  <!-- ================================
+       Location Section
+  ================================= -->
   <section class="location-section">
     <div class="container">
       
-      <!-- 지도 이미지 -->
+      <!-- 지도 이미지 영역 -->
       <div class="map-area fade-up">
-        <img src="지도.png" alt="김군개인택시 상담소 위치 이미지" class="location-image" />
+        <img src="지도.png" alt="김군 개인택시 상담소 위치 이미지" class="location-image" />
       </div>
 
       <!-- 정보 영역 -->
       <div class="info-area fade-up">
         <h2>김군 개인택시 상담소</h2>
-        <ul>
-          <li><strong>주소 :</strong> 부산광역시 동래구 충렬사로 84-1 1층</li>
-          <li><strong>전화 :</strong> 010-5555-9156</li>
-          <li><strong>운영시간 :</strong> 평일 09:00 ~ 18:00 (주말·공휴일 휴무)</li>
-          <li><strong>이메일 :</strong> mrkim_taxioffice@naver.com</li>
+
+        <ul class="info-list">
+          <li><strong>주소</strong>부산광역시 동래구 충렬사로 84-1 1층</li>
+          <li><strong>전화</strong>010-5555-9156</li>
+          <li><strong>운영시간</strong>평일 09:00 ~ 18:00 (주말·공휴일 휴무)</li>
+          <li><strong>이메일</strong>mrkim_taxioffice@naver.com</li>
+        </ul>
+
+        <h3 class="route-title">오시는 방법</h3>
+        <ul class="route-list">
+          <li>네이버지도 또는 카카오맵에서 <strong>“김군 개인택시 상담소”</strong>를 검색하시면 정확한 위치를 확인하실 수 있습니다.</li>
+          <li>방문 전 간단히 연락 주시면, 근처에서부터 길 안내도 도와드립니다.</li>
         </ul>
 
         <a href="https://open.kakao.com/o/sWi4vySh" target="_blank" class="btn consult">
           오픈카톡 상담하기
         </a>
-
       </div>
 
     </div>
   </section>
 
+  <!-- 공통 푸터 -->
   <div id="footer"></div>
   <script src="script.js"></script>
 </body>
