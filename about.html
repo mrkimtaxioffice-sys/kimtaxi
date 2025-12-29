@@ -4,78 +4,299 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>소개 | 김군 개인택시 상담소</title>
+  
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* 배경: 은은한 그라데이션 베이스 */
+    body {
+      background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    /* 1. Hero: 블렌딩 효과 강화 */
+    .about-hero { 
+      height: 45vh; 
+      min-height: 400px;
+      position: relative;
+    }
+    .overlay {
+      /* 단순 검정이 아닌, 딥 네이비 그라데이션 오버레이 */
+      background: linear-gradient(135deg, rgba(26, 43, 60, 0.85) 0%, rgba(26, 43, 60, 0.4) 100%);
+      backdrop-filter: blur(4px); /* 배경 블러 처리로 텍스트 집중 */
+    }
+    .hero-eyebrow {
+      background: rgba(255, 179, 0, 0.2);
+      color: #ffb300;
+      border: 1px solid rgba(255, 179, 0, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    /* 2. 섹션 공통 */
+    section { padding: 80px 20px !important; }
+
+    /* 3. 소개 + 통계 (Glassmorphism 카드) */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    
+    /* 텍스트 영역 */
+    .badge-sub {
+      background: linear-gradient(90deg, #ffb300, #ffca28); /* 골드 그라데이션 */
+      color: #1a2b3c;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3); /* 빛나는 그림자 */
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+    .intro-text h2 { 
+      font-size: 32px; 
+      margin-bottom: 20px; 
+      color: #1a2b3c; 
+      letter-spacing: -0.03em;
+    }
+    .intro-text p { 
+      font-size: 16px; 
+      line-height: 1.8; 
+      color: #555; 
+      margin-bottom: 30px; 
+    }
+
+    /* 통계 박스: 유리 질감 + 그라데이션 보더 */
+    .stats-row {
+      display: flex; gap: 20px;
+    }
+    .stat-box {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px); /* 유리 효과 */
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, #ffb300, #ffdf80); /* 상단 포인트 라인 */
+    }
+    .stat-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      background: #fff;
+    }
+    .stat-box h3 { 
+      font-size: 28px; 
+      font-weight: 800;
+      background: linear-gradient(135deg, #1a2b3c 0%, #344e68 100%); /* 텍스트 그라데이션 */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 5px; 
+    }
+    .stat-box p { font-size: 13px; color: #888; margin: 0; font-weight: 600; }
+
+    /* 이미지 스타일 */
+    .intro-img-wrapper {
+      position: relative;
+    }
+    .intro-img {
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      transition: 0.4s;
+    }
+    .intro-img:hover { transform: scale(1.02); }
+    /* 장식용 원형 블러 (뒤에 은은하게 깔리는 빛) */
+    .blur-circle {
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 100px; height: 100px;
+      background: #ffb300;
+      filter: blur(60px);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    /* 4. 핵심 가치 (입체적인 카드) */
+    .vision-section { background: transparent; } /* 바디 그라데이션 유지 */
+    .vision-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .compact-vision-card {
+      background: #fff;
+      padding: 35px 25px;
+      border-radius: 20px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(0,0,0,0.03);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      position: relative;
+      z-index: 1;
+    }
+    .compact-vision-card:hover { 
+      transform: translateY(-10px); 
+      box-shadow: 0 20px 40px rgba(26, 43, 60, 0.1);
+      border-color: transparent;
+    }
+    /* 아이콘 배경 */
+    .vision-icon {
+      width: 60px; height: 60px;
+      margin: 0 auto 20px;
+      background: rgba(255, 179, 0, 0.1);
+      color: #ffb300;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      transition: 0.3s;
+    }
+    .compact-vision-card:hover .vision-icon {
+      background: #ffb300; color: #fff;
+      transform: rotateY(180deg);
+    }
+    .compact-vision-card h3 { font-size: 20px; margin-bottom: 10px; color: #333; }
+    .compact-vision-card p { font-size: 14px; color: #666; line-height: 1.6; margin: 0; }
+
+    /* 5. CEO 메시지 (고급스러운 다크 모드 포인트) */
+    .ceo-section { 
+      background: #1a2b3c; /* 딥 네이비 배경 */
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* 배경 패턴 장식 */
+    .ceo-section::before {
+      content: '';
+      position: absolute; top: -50px; left: -50px; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(255,179,0,0.2) 0%, transparent 70%);
+    }
+    .ceo-box { 
+      max-width: 800px; margin: 0 auto; 
+      position: relative; z-index: 2;
+    }
+    .ceo-box i { font-size: 30px; color: #ffb300; margin-bottom: 20px; opacity: 0.8; }
+    .ceo-box h3 { font-size: 26px; margin-bottom: 20px; font-weight: 300; }
+    .ceo-box h3 strong { font-weight: 800; color: #ffb300; }
+    .ceo-box p { font-size: 16px; line-height: 1.8; color: #ccc; margin-bottom: 30px; font-weight: 300; }
+    .signature { 
+      font-family: 'Nanum Myeongjo', serif; 
+      font-size: 22px; 
+      color: #fff; 
+      display: inline-block;
+      border-bottom: 1px solid rgba(255,179,0,0.5);
+      padding-bottom: 5px;
+    }
+
+    /* 모바일 대응 */
+    @media (max-width: 900px) {
+      .intro-grid { grid-template-columns: 1fr; }
+      .vision-grid { grid-template-columns: 1fr; }
+      .about-hero { height: 35vh; }
+      .stat-box h3 { font-size: 24px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- 공통 헤더 -->
   <div id="header"></div>
 
-  <!-- ================================
-       Hero
-  ================================= -->
   <section class="about-hero">
     <video autoplay muted loop playsinline class="bg-video">
       <source src="상담.mp4" type="video/mp4" />
-      브라우저가 동영상을 지원하지 않습니다.
     </video>
     <div class="overlay"></div>
 
     <div class="hero-inner fade-up">
-      <p class="hero-eyebrow">ABOUT</p>
-      <h1>부산 개인택시<br>양도·양수 전담 상담소</h1>
-      <p>복잡한 절차와 시세 고민, 김군이 한 번에 정리해 드립니다.</p>
+      <p class="hero-eyebrow">OUR STORY</p>
+      <h1>기사님의 새로운 시작,<br>가족 같은 마음으로 동행합니다.</h1>
     </div>
   </section>
 
-  <!-- ================================
-       한눈에 보는 상담소
-  ================================= -->
   <section class="about-section">
-    <div class="container">
-      <div class="about-left fade-up">
-        <h2>김군 개인택시 상담소 한눈에 보기</h2>
-        <ul class="key-points">
-          <li><strong>전문 분야</strong> : 부산 개인택시 양도·양수</li>
-          <li><strong>상담 방식</strong> : 전화 · 방문 · 오픈카톡</li>
-          <li><strong>진행 범위</strong> : 시세 상담부터 계약 마무리까지 원스톱</li>
-        </ul>
-        <p class="about-note">
-          “지금 팔아도 될까요?”, “지금 들어가도 괜찮을까요?”<br>
-          기사님이 궁금해하시는 바로 그 부분만 콕 짚어 드립니다.
+    <div class="intro-grid fade-up">
+      <div class="intro-text">
+        <span class="badge-sub">WHO WE ARE</span>
+        <h2>김군이 제시하는<br>새로운 기준</h2>
+        <p>
+          개인택시 양도·양수는 단순한 거래가 아닙니다.<br>
+          복잡한 <strong>행정 절차</strong>와 매일 변하는 <strong>시세</strong>, <strong>금융 설계</strong>까지.<br>
+          이 모든 과정을 투명하고 안전하게 설계해 드립니다.
         </p>
+        
+        <div class="stats-row">
+          <div class="stat-box">
+            <h3>5년+</h3>
+            <p>실무 경력</p>
+          </div>
+          <div class="stat-box">
+            <h3>1,200+</h3>
+            <p>누적 상담</p>
+          </div>
+          <div class="stat-box">
+            <h3>99%</h3>
+            <p>고객 만족</p>
+          </div>
+        </div>
       </div>
 
-      <div class="about-right fade-up">
-        <img src="홈페이지_사용_이미지3.png" alt="김군 개인택시 상담소" />
+      <div class="intro-img-wrapper">
+        <div class="blur-circle"></div>
+        <img src="홈페이지_사용_이미지3.png" alt="신뢰 상담" class="intro-img">
       </div>
     </div>
   </section>
 
-  <!-- ================================
-       핵심 가치 3가지
-  ================================= -->
-  <section class="about-vision">
+  <section class="vision-section">
     <div class="container">
-      <h2>김군 상담소의 핵심 가치</h2>
-      <div class="vision-grid">
-        <div class="vision-card fade-up">
-          <h3>🧭 정직한 시세</h3>
-          <p>시세를 부풀리지 않고, 객관적인 자료와 실제 거래 사례만으로 안내합니다.</p>
+      <h2 class="section-title" style="margin-bottom:40px; color:#1a2b3c;">김군의 3가지 약속</h2>
+      
+      <div class="vision-grid fade-up">
+        <div class="compact-vision-card">
+          <div class="vision-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+          <h3>정직한 시세</h3>
+          <p>시세를 부풀리지 않고,<br>실거래가 기반의 데이터로 안내합니다.</p>
         </div>
-        <div class="vision-card fade-up">
-          <h3>📋 깔끔한 진행</h3>
-          <p>서류·교육·일정을 한 번에 정리해 드려 기사님은 운행과 결정에만 집중하실 수 있습니다.</p>
+        <div class="compact-vision-card">
+          <div class="vision-icon"><i class="fa-solid fa-file-shield"></i></div>
+          <h3>완벽한 서류</h3>
+          <p>복잡한 조합 인가부터 이전까지<br>모든 행정 절차를 100% 대행합니다.</p>
         </div>
-        <div class="vision-card fade-up">
-          <h3>🤝 오래 가는 관계</h3>
-          <p>한 번의 거래가 아니라, 필요할 때마다 다시 찾게 되는 상담소가 되는 것을 목표로 합니다.</p>
+        <div class="compact-vision-card">
+          <div class="vision-icon"><i class="fa-solid fa-users"></i></div>
+          <h3>평생 파트너</h3>
+          <p>거래 후에도 각종 세무,<br>민원 상담까지 끝까지 함께합니다.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 공통 푸터 -->
+  <section class="ceo-section">
+    <div class="ceo-box fade-up">
+      <i class="fa-solid fa-quote-left"></i>
+      <h3>"<strong>가족</strong>을 모시는 마음으로 시작했습니다."</h3>
+      <p>
+        안녕하십니까, 대표 <strong>김군</strong>입니다.<br>
+        '내 아버지가 택시를 하신다면?'이라는 질문에서 시작했습니다.<br>
+        조금 느리더라도 정확하게, 이익보다는 사람을 남기는 중개소가 되겠습니다.<br>
+        언제든 편하게 들러 차 한 잔 하고 가세요.
+      </p>
+      <div class="signature">김 군 드림</div>
+    </div>
+  </section>
+
   <div id="footer"></div>
   <script src="script.js"></script>
 </body>
