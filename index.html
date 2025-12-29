@@ -1,1 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김군 개인택시 상담소 | 부산 1등 택시 중개</title>
+  
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    /* 폰트 전역 적용 */
+    body { font-family: 'Pretendard', sans-serif !important; }
+
+    /* 1. 기본 섹션 여백 축소 */
+    section { padding: 60px 20px !important; }
+    
+    /* 2. Hero 높이 조정 및 서비스 오버랩 */
+    .hero { height: 85vh; min-height: 600px; padding-bottom: 80px !important; }
+    .hero-text { margin-top: -40px; }
+
+    /* 3. 서비스 섹션 (오버랩 디자인) */
+    .home-service-section {
+      margin-top: -80px;
+      padding-top: 0 !important;
+      padding-bottom: 40px !important;
+      position: relative;
+      z-index: 10;
+    }
+    .home-service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .compact-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: transform 0.3s;
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+    .compact-card:hover { transform: translateY(-5px); }
+    .compact-card .icon {
+      width: 54px; height: 54px;
+      background: rgba(255, 179, 0, 0.15);
+      color: #ffb300;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .compact-card .text h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; color: #333; }
+    .compact-card .text p { font-size: 14px; color: #666; margin: 0; line-height: 1.4; word-break: keep-all; }
+
+    /* 4. 둥글고 빛나는 토글 버튼 스타일 */
+    .toggle-container {
+      background: #f5f5f5;
+      padding: 6px;
+      border-radius: 50px;
+      display: flex;
+      gap: 5px;
+      margin-bottom: 25px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .toggle-btn {
+      flex: 1;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: #888;
+      background: transparent;
+    }
+    .toggle-btn.active {
+      background: #ffb300;
+      color: #1c1c1c;
+      box-shadow: 0 4px 20px rgba(255, 179, 0, 0.5);
+      transform: scale(1.02);
+    }
+
+    /* 5. FAQ 섹션 레이아웃 수정 (문제 해결 부분) */
+    .faq-section {
+      max-width: 100% !important; /* style.css의 너비 제한 해제 */
+      margin: 0 !important;
+      background: #f9f9f9; /* 배경색을 꽉 채움 */
+      padding-bottom: 80px !important;
+    }
+
+    /* 6. FAQ 디자인 개선 (카드형 아코디언) */
+    .faq-item {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 20px 24px;
+      background: #fff;
+      border: none;
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question:hover { color: #ffb300; background: #fafafa; }
+    .faq-question i { color: #ccc; transition: 0.3s; font-size: 14px; }
+    
+    .faq-item.active { border-color: #ffb300; box-shadow: 0 4px 15px rgba(255,179,0,0.1); }
+    .faq-item.active .faq-question i { transform: rotate(180deg); color: #ffb300; }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background: #fafafa;
+      border-top: 1px solid #eee;
+    }
+    .faq-answer p { padding: 20px 24px; font-size: 15px; line-height: 1.6; color: #555; margin: 0; }
+
+    /* 모바일 대응 */
+    @media (max-width: 900px) {
+      .home-service-grid { grid-template-columns: 1fr; gap: 12px; }
+      .home-service-section { margin-top: -40px; padding: 0 20px !important; }
+      .hero { height: 70vh; }
+      .compact-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header"></div>
+
+  <section class="hero">
+    <video autoplay muted loop playsinline class="bg-video">
+      <source src="광안리 택시.mp4" type="video/mp4" />
+    </video>
+    <div class="overlay"></div>
+    
+    <div class="hero-text fade-up">
+      <span class="hero-badge">Busan Taxi No.1</span>
+      <h1>부산 개인택시의 모든 것,<br>김군이 해결해 드립니다.</h1>
+      <p>복잡한 절차는 잊으세요. 상담부터 행정까지 원스톱으로 처리합니다.</p>
+      <a href="#consult" class="btn consult" style="margin-top:15px;">무료 상담 신청하기</a>
+    </div>
+  </section>
+
+  <div class="home-service-section">
+    <div class="home-service-grid fade-up">
+      <div class="compact-card">
+        <div class="icon"><i class="fa-solid fa-handshake"></i></div>
+        <div class="text">
+          <h3>안전한 양도·양수</h3>
+          <p>권리 분석부터 계약까지 법적 보호 아래 진행</p>
+        </div>
+      </div>
+      <div class="compact-card">
+        <div class="icon"><i class="fa-solid fa-file-signature"></i></div>
+        <div class="text">
+          <h3>행정 서류 대행</h3>
+          <p>구청 인가, 사업자 등록 등 복잡한 서류 해결</p>
+        </div>
+      </div>
+      <div class="compact-card">
+        <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="text">
+          <h3>금융 및 대출</h3>
+          <p>1금융권 최저 금리 연계 및 맞춤 자금 설계</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="consult" class="consult-section" style="background: #f9f9f9;">
+    <div class="container">
+      
+      <div class="form-area fade-up">
+        <h2 class="section-title">📄 간편 상담 신청</h2>
+        <p class="section-subtitle">정보를 남겨주시면 김군이 순차적으로 연락드립니다.</p>
+
+        <div class="toggle-container">
+          <button type="button" id="btnSell" class="toggle-btn active">양도(판매)</button>
+          <button type="button" id="btnBuy" class="toggle-btn">양수(구입)</button>
+        </div>
+
+        <form id="consultForm">
+          <div id="formContent">
+            <input type="hidden" id="type" value="양도 신청" />
+            <div class="input-group"><label>이름</label><input type="text" id="name" placeholder="성함" required /></div>
+            <div class="input-group"><label>연락처</label><input type="text" id="phone" placeholder="010-0000-0000" required /></div>
+            <div class="input-group"><label>차량모델</label><input type="text" id="carModel" placeholder="예: 그랜저IG" /></div>
+            <div class="input-group"><label>차량번호</label><input type="text" id="carNumber" placeholder="예: 36바 1234" /></div>
+          </div>
+
+          <div class="captcha-box">
+            <input type="text" id="captchaInput" placeholder="보안코드" required />
+            <div class="captcha-code" id="captchaText">ABCD</div>
+          </div>
+
+          <label class="privacy" style="font-size:13px;">
+            <input type="checkbox" required /> 개인정보 수집 이용 동의
+          </label>
+
+          <button type="submit" class="btn submit">상담 신청하기</button>
+          <p id="submitMsg" style="margin-top:10px; font-weight:bold; text-align:center; font-size:14px;"></p>
+        </form>
+      </div>
+
+      <div class="list-area fade-up">
+        <div class="list-header">
+          <h2 class="section-title">📌 실시간 접수</h2>
+          <p class="section-subtitle">현재 많은 사장님들이 상담 중입니다.</p>
+        </div>
+        <div class="scroll-list">
+          <ul id="fakeList">
+            </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="review-section" style="background:#fff;">
+    <div class="container" style="flex-direction:column; align-items:center;">
+      <h2 class="section-title" style="text-align:center; font-size:24px;">생생한 거래 후기</h2>
+      
+      <div class="review-grid" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center; margin-top:20px;">
+        <div class="review-card" style="background:#f8f9fa; border:1px solid #eee; border-radius:12px; padding:20px; max-width:350px;">
+          <div style="color:#ffb300; margin-bottom:5px; font-size:14px;">★★★★★</div>
+          <p style="font-size:14px; color:#555; margin-bottom:10px;">"처음이라 막막했는데 서류부터 조합 가입까지 다 알아서 해주시니 너무 편했습니다."</p>
+          <div style="font-size:12px; font-weight:bold; color:#333;">부산진구 박*철 사장님</div>
+        </div>
+        <div class="review-card" style="background:#f8f9fa; border:1px solid #eee; border-radius:12px; padding:20px; max-width:350px;">
+          <div style="color:#ffb300; margin-bottom:5px; font-size:14px;">★★★★★</div>
+          <p style="font-size:14px; color:#555; margin-bottom:10px;">"급하게 차를 내놔야 했는데, 김군 상담소 덕분에 좋은 가격에 빨리 거래했습니다."</p>
+          <div style="font-size:12px; font-weight:bold; color:#333;">해운대구 이*석 사장님</div>
+        </div>
+         <div class="review-card" style="background:#f8f9fa; border:1px solid #eee; border-radius:12px; padding:20px; max-width:350px;">
+          <div style="color:#ffb300; margin-bottom:5px; font-size:14px;">★★★★★</div>
+          <p style="font-size:14px; color:#555; margin-bottom:10px;">"다른 곳보다 친절하고 강요가 없어서 좋았습니다. 좋은 넘버 감사합니다."</p>
+          <div style="font-size:12px; font-weight:bold; color:#333;">사하구 최*민 사장님</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="faq-section">
+    <div class="container" style="display:block; max-width:800px; margin: 0 auto;">
+      <h2 class="section-title" style="text-align:center; margin-bottom:30px; font-size:24px;">자주 묻는 질문</h2>
+      
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          <span>개인택시 양수 자격 조건은?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>무사고 5년 경력과 교통안전공단 양수교육(5일)을 이수하시면 누구나 가능합니다. 자세한 자격 조회는 상담 시 무료로 확인해 드립니다.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          <span>양도 시세는 어떻게 결정되나요?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>시장의 수요/공급에 따라 매주 변동됩니다. 전화주시면 오늘 기준 가장 정확한 실시간 시세를 안내해 드립니다.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          <span>상담 신청 후 언제 연락 오나요?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>평일 업무 시간(09:00 ~ 18:00) 내 신청 시 1시간 이내 연락드립니다. (야간/주말은 다음 영업일 오전에 빠르게 연락드립니다.)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script src="script.js"></script>
+
+  <script>
+    // 0. EmailJS 초기화
+    (function() {
+      // ★ 여기에 본인의 EmailJS Public Key를 입력하세요
+      emailjs.init("YOUR_PUBLIC_KEY"); 
+    })();
+
+    // 1. 폼 토글 기능
+    const formContent = document.getElementById("formContent");
+    const btnSell = document.getElementById("btnSell");
+    const btnBuy = document.getElementById("btnBuy");
+
+    const sellHTML = `
+      <input type="hidden" id="type" value="양도 신청" />
+      <div class="input-group"><label>이름</label><input type="text" id="name" placeholder="성함" required /></div>
+      <div class="input-group"><label>연락처</label><input type="text" id="phone" placeholder="010-0000-0000" required /></div>
+      <div class="input-group"><label>차량모델</label><input type="text" id="carModel" placeholder="예: 그랜저IG" /></div>
+      <div class="input-group"><label>차량번호</label><input type="text" id="carNumber" placeholder="예: 36바 1234" /></div>
+    `;
+
+    const buyHTML = `
+      <input type="hidden" id="type" value="양수 신청" />
+      <div class="input-group"><label>이름</label><input type="text" id="name" placeholder="성함" required /></div>
+      <div class="input-group"><label>연락처</label><input type="text" id="phone" placeholder="010-0000-0000" required /></div>
+      <div class="input-group"><label>희망지역</label><input type="text" id="region" value="부산" readonly /></div>
+      <div class="input-group"><label>양수교육</label>
+        <select id="eduStatus">
+          <option value="이수 완료">이수 완료</option>
+          <option value="이수 전">이수 전</option>
+          <option value="면제 대상">면제(경력자)</option>
+        </select>
+      </div>
+    `;
+
+    btnSell.addEventListener("click", () => {
+      btnSell.classList.add("active");
+      btnBuy.classList.remove("active");
+      formContent.innerHTML = sellHTML;
+    });
+
+    btnBuy.addEventListener("click", () => {
+      btnBuy.classList.add("active");
+      btnSell.classList.remove("active");
+      formContent.innerHTML = buyHTML;
+    });
+
+    // 2. FAQ 아코디언 로직 (충돌 방지)
+    const faqQuestions = document.querySelectorAll(".faq-question");
+    
+    faqQuestions.forEach(btn => {
+      btn.setAttribute("type", "button");
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation(); 
+        e.preventDefault();
+
+        const item = btn.closest(".faq-item");
+        const answer = item.querySelector(".faq-answer");
+        const isActive = item.classList.contains("active");
+        
+        document.querySelectorAll(".faq-item.active").forEach(other => {
+          if (other !== item) {
+            other.classList.remove("active");
+            other.querySelector(".faq-answer").style.maxHeight = "0";
+          }
+        });
+
+        if (isActive) {
+          item.classList.remove("active");
+          answer.style.maxHeight = "0";
+        } else {
+          item.classList.add("active");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+      });
+    });
+
+    // 3. 캡차 생성
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "";
+    for(let i=0; i<4; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+    document.getElementById("captchaText").innerText = code;
+
+    // 4. 폼 제출 로직
+    document.getElementById("consultForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const userCode = document.getElementById("captchaInput").value.toUpperCase();
+      const realCode = document.getElementById("captchaText").innerText;
+
+      if(userCode !== realCode) {
+        alert("보안 코드가 일치하지 않습니다.");
+        return;
+      }
+
+      const type = document.getElementById("type").value;
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      
+      let msgBody = "";
+      if(type === "양도 신청") {
+        msgBody = `차량: ${document.getElementById("carModel").value} / 번호: ${document.getElementById("carNumber").value}`;
+      } else {
+        msgBody = `지역: 부산 / 교육: ${document.getElementById("eduStatus").value}`;
+      }
+
+      const params = { title: type, name: name, phone: phone, message: msgBody };
+      const msgBox = document.getElementById("submitMsg");
+      msgBox.innerText = "전송 중...";
+
+      emailjs.send("service_kimtaxi", "template_4yu2gna", params)
+        .then(() => {
+          msgBox.innerText = "✅ 접수 완료! 곧 연락드릴게요.";
+          msgBox.style.color = "green";
+          document.getElementById("consultForm").reset();
+        })
+        .catch((err) => {
+          console.error(err);
+          msgBox.innerText = "❌ 전송 실패. 전화로 문의주세요.";
+          msgBox.style.color = "red";
+        });
+    });
+  </script>
+</body>
 </html>
