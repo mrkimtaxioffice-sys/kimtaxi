@@ -300,10 +300,10 @@
 
   <script src="script.js"></script>
 
-  <script>
+<script>
     // 0. EmailJS 초기화
     (function() {
-      // ★ 여기에 본인의 EmailJS Public Key를 입력하세요
+      // Public Key 적용 완료됨을 확인했습니다.
       emailjs.init("2iseJXtljrKVXtYDP"); 
     })();
 
@@ -346,26 +346,21 @@
       formContent.innerHTML = buyHTML;
     });
 
-    // 2. FAQ 아코디언 로직 (충돌 방지)
+    // 2. FAQ 아코디언 로직 (생략 - 기존 코드 유지)
     const faqQuestions = document.querySelectorAll(".faq-question");
-    
     faqQuestions.forEach(btn => {
       btn.setAttribute("type", "button");
       btn.addEventListener("click", (e) => {
-        e.stopPropagation(); 
-        e.preventDefault();
-
+        e.stopPropagation(); e.preventDefault();
         const item = btn.closest(".faq-item");
         const answer = item.querySelector(".faq-answer");
         const isActive = item.classList.contains("active");
-        
         document.querySelectorAll(".faq-item.active").forEach(other => {
           if (other !== item) {
             other.classList.remove("active");
             other.querySelector(".faq-answer").style.maxHeight = "0";
           }
         });
-
         if (isActive) {
           item.classList.remove("active");
           answer.style.maxHeight = "0";
@@ -382,7 +377,7 @@
     for(let i=0; i<4; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
     document.getElementById("captchaText").innerText = code;
 
-    // 4. 폼 제출 로직
+    // 4. 폼 제출 로직 (수정됨)
     document.getElementById("consultForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const userCode = document.getElementById("captchaInput").value.toUpperCase();
@@ -393,18 +388,27 @@
         return;
       }
 
-      const type = document.getElementById("type").value;
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
+      // 탭 전환으로 인해 화면에 없는 요소가 있을 수 있으므로 체크 후 수집
+      const typeVal = document.getElementById("type").value;
+      const nameVal = document.getElementById("name").value;
+      const phoneVal = document.getElementById("phone").value;
       
-      let msgBody = "";
-      if(type === "양도 신청") {
-        msgBody = `차량: ${document.getElementById("carModel").value} / 번호: ${document.getElementById("carNumber").value}`;
-      } else {
-        msgBody = `지역: 부산 / 교육: ${document.getElementById("eduStatus").value}`;
-      }
+      const carModelVal = document.getElementById("carModel") ? document.getElementById("carModel").value : "해당 없음";
+      const carNumberVal = document.getElementById("carNumber") ? document.getElementById("carNumber").value : "해당 없음";
+      const regionVal = document.getElementById("region") ? document.getElementById("region").value : "해당 없음";
+      const eduStatusVal = document.getElementById("eduStatus") ? document.getElementById("eduStatus").value : "해당 없음";
 
-      const params = { title: type, name: name, phone: phone, message: msgBody };
+      // EmailJS 템플릿의 {{변수명}}과 1:1로 매칭
+      const params = {
+        type: typeVal,
+        name: nameVal,
+        phone: phoneVal,
+        carModel: carModelVal,
+        carNumber: carNumberVal,
+        region: regionVal,
+        eduStatus: eduStatusVal
+      };
+
       const msgBox = document.getElementById("submitMsg");
       msgBox.innerText = "전송 중...";
 
@@ -413,9 +417,10 @@
           msgBox.innerText = "✅ 접수 완료! 곧 연락드릴게요.";
           msgBox.style.color = "green";
           document.getElementById("consultForm").reset();
+          // 성공 후 캡차 새로고침 (선택 사항)
         })
         .catch((err) => {
-          console.error(err);
+          console.error("EmailJS Error:", err);
           msgBox.innerText = "❌ 전송 실패. 전화로 문의주세요.";
           msgBox.style.color = "red";
         });
@@ -423,4 +428,5 @@
   </script>
 </body>
 </html>
+
 
