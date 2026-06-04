@@ -2,36 +2,102 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="김군 로고 (32px).png" />
+  <link rel="apple-touch-icon" href="김군 로고 (32px).png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="apple-touch-icon" href="favicon-192.png" />
 
   <title>오시는 길 | 김군 개인택시 상담소</title>
   
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* 배경: 은은한 그라데이션 */
+    body { font-family: 'Pretendard', sans-serif !important; }
+
     body {
       background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
     }
     
-    /* Hero 높이 및 스타일 통일 */
+    /* ── Hero ── */
     .location-hero {
-      height: 45vh; min-height: 400px; position: relative;
+      height: 45vh;
+      min-height: 360px;
+      position: relative;
       display: flex; align-items: center; justify-content: center;
       text-align: center; color: #fff; overflow: hidden;
     }
     .location-hero .overlay {
-      background: linear-gradient(135deg, rgba(2, 62, 138, 0.85) 0%, rgba(0, 119, 182, 0.55) 100%);
+      background: linear-gradient(135deg, rgba(2,62,138,0.85) 0%, rgba(0,119,182,0.55) 100%);
       backdrop-filter: blur(4px);
     }
     .hero-eyebrow {
       background: rgba(0, 180, 216, 0.2); color: #7df9ff;
       border: 1px solid rgba(125, 249, 255, 0.4);
       backdrop-filter: blur(10px);
+    }
+
+    /* ── 지도 컨테이너 ── */
+    .map-area { flex: 1.3; }
+
+    /* Kakao Map JS API 컨테이너 */
+    #kakaoMap {
+      width: 100%;
+      height: 480px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,180,216,0.18);
+      border: 1px solid rgba(0,180,216,0.10);
+      display: block;
+    }
+
+    /* 지도 하단 레이블 (겹침 현상 수정을 위해 position 변경 및 마진 확보) */
+    .map-label {
+      position: relative !important; /* absolute 해제 */
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      padding: 14px 20px;
+      border-radius: 16px;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 6px 20px rgba(0,180,216,0.12);
+      border: 1px solid rgba(0,180,216,0.12);
+    }
+    .map-label .pin-icon {
+      width: 38px; height: 38px; background: var(--accent, #ff6b35); color: #fff;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(255,107,53,0.35);
+    }
+    .map-label span { font-size: 14px; color: #1d3557; font-weight: 600; }
+
+    /* 지도 열기 버튼 (겹치지 않고 레이블 아래 자연스럽게 흐르도록 설정) */
+    .btn-map-open {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 14px 20px; border-radius: 12px; margin-top: 12px;
+      background: #fee500; color: #3c1e1e; font-weight: 800; font-size: 15px;
+      box-shadow: 0 4px 14px rgba(254,229,0,0.35); transition: 0.3s;
+      text-decoration: none;
+    }
+    .btn-map-open:hover { background: #fdd800; transform: translateY(-2px); }
+
+    /* ── 모바일 반응형 ── */
+    @media (max-width: 900px) {
+      .location-hero { height: 35vh; min-height: 260px; }
+      #kakaoMap { height: 340px; }
+      .location-section .container {
+        flex-direction: column !important;
+        gap: 36px !important;
+      }
+      .map-area { order: -1; width: 100%; }
+      .info-area { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      #kakaoMap { height: 280px; }
+      .map-label { flex-direction: column; text-align: center; gap: 8px; }
+      .route-tip { flex-direction: column; }
     }
   </style>
 </head>
@@ -74,7 +140,9 @@
             <div class="icon-box"><i class="fa-solid fa-phone"></i></div>
             <div class="text-box">
               <h4>연락처</h4>
-              <p>010-5555-9156</p>
+              <a href="tel:01055559156" style="text-decoration:none;">
+                <p>010-5555-9156</p>
+              </a>
             </div>
           </div>
 
@@ -90,14 +158,16 @@
             <div class="icon-box"><i class="fa-regular fa-envelope"></i></div>
             <div class="text-box">
               <h4>이메일</h4>
-              <p>mrkim_taxioffice<br>@naver.com</p>
+              <p style="word-break:break-all;">mrkim_taxioffice@naver.com</p>
             </div>
           </div>
         </div>
 
         <div class="route-tip">
-          <h4><i class="fa-solid fa-circle-info"></i> 오시는<br>방법</h4>
-          <p>네이버지도 또는 카카오맵에서 <strong>“김군 개인택시 상담소”</strong>를<br>검색하시면 정확한 위치가 나옵니다.<br>찾기 어려우시면 도착해서 전화 주세요.</p>
+          <div>
+            <h4><i class="fa-solid fa-circle-info"></i> 오시는 방법</h4>
+            <p style="margin-top:6px;">카카오맵 또는 네이버지도에서 <strong>"김군 개인택시 상담소"</strong>를<br>검색하시면 정확한 위치가 안내됩니다.<br>찾기 어려우시면 도착해서 전화 주세요.</p>
+          </div>
         </div>
 
         <div class="action-buttons">
@@ -108,19 +178,62 @@
       </div>
 
       <div class="map-area fade-up">
-        <div class="map-frame">
-          <img src="지도.png" alt="김군 개인택시 상담소 약도" class="location-map-img" />
-          <div class="map-label">
-            <div class="pin-icon"><i class="fa-solid fa-map-pin"></i></div>
-            <span>부산 동래구 충렬사로 84-1</span>
-          </div>
+        <div id="kakaoMap"></div>
+
+        <div class="map-label">
+          <div class="pin-icon"><i class="fa-solid fa-map-pin"></i></div>
+          <span>부산 동래구 충렬사로 84-1 1층</span>
         </div>
+
+        <a
+          href="https://map.kakao.com/link/search/부산 동래구 충렬사로 84-1"
+          target="_blank"
+          class="btn-map-open"
+        >
+          <i class="fa-solid fa-map-location-dot"></i> 카카오맵에서 크게 보기
+        </a>
       </div>
 
     </div>
   </section>
 
   <div id="footer"></div>
+
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은자바스크립트키&libraries=services">
+  </script>
+
+  <script>
+    (function() {
+      var container = document.getElementById('kakaoMap');
+      if (!container) return;
+
+      // 주소지 정밀 위경도 피드백 반영 (부산 동래구 충렬사로 84-1 좌표값 설정)
+      var options = {
+        center: new kakao.maps.LatLng(35.2018, 129.0911), 
+        level: 3
+      };
+
+      var map = new kakao.maps.Map(container, options);
+      var geocoder = new kakao.maps.services.Geocoder();
+
+      geocoder.addressSearch('부산 동래구 충렬사로 84-1', function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+          var marker = new kakao.maps.Marker({ map: map, position: coords });
+
+          var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="padding:8px 12px; font-size:13px; font-weight:700; color:#023e8a; white-space:nowrap; text-align:center;">📍 김군 개인택시 상담소</div>'
+          });
+          infowindow.open(map, marker);
+
+          map.setCenter(coords);
+        }
+      });
+    })();
+  </script>
+
   <script src="script.js"></script>
 </body>
 </html>
