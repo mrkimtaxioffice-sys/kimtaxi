@@ -24,15 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // ====== 헤더 스크롤 축소 효과 ======
       const mainHeader = document.querySelector(".main-header");
+      const mobileMenuEl = document.querySelector(".mobile-menu");
       if (mainHeader) {
         const onScroll = () => {
           if (window.scrollY > 40) {
             mainHeader.classList.add("scrolled");
+            if (mobileMenuEl) mobileMenuEl.style.top = "64px";
           } else {
             mainHeader.classList.remove("scrolled");
+            if (mobileMenuEl) mobileMenuEl.style.top = "80px";
           }
         };
-        onScroll(); // 초기 상태 한 번 체크
+        onScroll();
         window.addEventListener("scroll", onScroll);
       }
 
@@ -46,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
           hamburger.classList.toggle("active");
         });
 
-        // 모바일 메뉴에서 항목 클릭 시 메뉴 닫기
         mobileMenu.querySelectorAll("a").forEach((link) => {
           link.addEventListener("click", () => {
             mobileMenu.classList.remove("show");
@@ -71,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (consultSection && consultButtons.length > 0) {
     consultButtons.forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        // a 태그면 기본 앵커 이동 막기
         if (btn.tagName.toLowerCase() === "a") {
           e.preventDefault();
         }
@@ -85,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ================================ */
   const list = document.getElementById("fakeList");
   if (list) {
-    // 한국식 날짜 포맷: MM월 DD일
     function formatKRDate(offsetDays = 0) {
       const d = new Date();
       d.setDate(d.getDate() - offsetDays);
@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return `${m}월 ${day}일`;
     }
 
-    // 실시간 상담 느낌을 위한 더미 데이터 (이름 + 차량 혼합)
     const fakeConsults = [
       { offset: 0, label: "최**님",        status: "상담중" },
       { offset: 0, label: "그랜저 차량",   status: "상담중" },
@@ -108,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
       { offset: 3, label: "아반떼 차량",   status: "상담중" },
     ];
 
-    // 리스트 초기화 후 카드형 구조로 생성
     list.innerHTML = "";
     fakeConsults.forEach((item) => {
       const li = document.createElement("li");
@@ -128,13 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
       list.appendChild(li);
     });
 
-    // 자연스러운 무한 스크롤을 위해 한 번 더 복제
     list.innerHTML = list.innerHTML + list.innerHTML;
-    // 실제 애니메이션은 CSS의 @keyframes scrollList에서 처리
   }
 
   /* ================================
-     4) 등장 애니메이션 (about / service / notice / location)
+     4) 등장 애니메이션
   ================================ */
   const observer = new IntersectionObserver(
     (entries) => {
@@ -150,35 +146,41 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelectorAll(".fade-up, .about-left, .about-right, .vision-card, .service-card")
     .forEach((el) => observer.observe(el));
-});
 
-/* ================================
-   5) FAQ 아코디언 기능
-================================ */
-document.addEventListener("click", (e) => {
-  const questionBtn = e.target.closest(".faq-question");
-  if (!questionBtn) return;
+  /* ================================
+     5) FAQ 아코디언 (faq.html 및 기타 페이지 공통)
+        index.html은 자체 인라인 스크립트로 처리하므로
+        index.html에서는 이 로직이 중복 실행되지 않도록
+        .faq-question에 data-bound 플래그로 중복 바인딩 방지
+  ================================ */
+  document.querySelectorAll(".faq-question").forEach((btn) => {
+    if (btn.dataset.bound) return; // 이미 바인딩된 버튼은 건너뜀
+    btn.dataset.bound = "1";
+    btn.setAttribute("type", "button");
 
-  const currentItem = questionBtn.parentElement;
-  const currentAnswer = currentItem.querySelector(".faq-answer");
+    btn.addEventListener("click", () => {
+      const currentItem = btn.parentElement;
+      const currentAnswer = currentItem.querySelector(".faq-answer");
+      const isActive = currentItem.classList.contains("active");
 
-  // 이미 열려 있으면 닫기
-  if (currentItem.classList.contains("active")) {
-    currentItem.classList.remove("active");
-    if (currentAnswer) currentAnswer.style.maxHeight = "0";
-    return;
-  }
+      // 열린 항목 모두 닫기
+      document.querySelectorAll(".faq-item.active").forEach((item) => {
+        item.classList.remove("active");
+        const ans = item.querySelector(".faq-answer");
+        if (ans) ans.style.maxHeight = "0";
+      });
 
-  // 다른 항목들 닫기 (아코디언)
-  document.querySelectorAll(".faq-item.active").forEach((item) => {
-    item.classList.remove("active");
-    const answer = item.querySelector(".faq-answer");
-    if (answer) answer.style.maxHeight = "0";
+      // 클릭한 항목이 닫혀 있었으면 열기
+      // requestAnimationFrame: 닫기 처리 후 DOM이 안정된 시점에
+      // scrollHeight를 읽어 정확한 높이 계산
+      if (!isActive) {
+        currentItem.classList.add("active");
+        if (currentAnswer) {
+          requestAnimationFrame(() => {
+            currentAnswer.style.maxHeight = currentAnswer.scrollHeight + "px";
+          });
+        }
+      }
+    });
   });
-
-  // 현재 항목 열기
-  currentItem.classList.add("active");
-  if (currentAnswer) {
-    currentAnswer.style.maxHeight = currentAnswer.scrollHeight + "px";
-  }
 });
