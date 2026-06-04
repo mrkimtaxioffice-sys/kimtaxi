@@ -2,17 +2,20 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" sizes="32x32" href="김군 로고 (32px).png" />
+  <link rel="apple-touch-icon" href="김군 로고 (32px).png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="apple-touch-icon" href="favicon-192.png" />
+  
+  
+  
 
   <title>소개 | 김군 개인택시 상담소</title>
   
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
   <style>
+    body { font-family: 'Pretendard', sans-serif !important; }
     /* 배경: 은은한 그라데이션 베이스 */
     body {
       background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
@@ -206,10 +209,25 @@
 
     /* 모바일 대응 */
     @media (max-width: 900px) {
-      .intro-grid { grid-template-columns: 1fr; }
+      .intro-grid { grid-template-columns: 1fr; gap: 32px; }
+      /* 이미지 먼저 표시 */
+      .intro-img-wrapper { order: -1; }
       .vision-grid { grid-template-columns: 1fr; }
-      .about-hero { height: 35vh; }
-      .stat-box h3 { font-size: 24px; }
+      .about-hero { height: 35vh; min-height: 260px; }
+      .stat-box h3 { font-size: 22px; }
+      section { padding: 60px 16px !important; }
+      .ceo-box h3 { font-size: 22px; }
+      .ceo-box p { font-size: 15px; }
+    }
+    @media (max-width: 480px) {
+      .stats-row { flex-direction: column; gap: 10px; }
+      .stat-box { padding: 14px 20px; }
+      .intro-text h2 { font-size: 26px; }
+      .intro-text p { font-size: 15px; }
+      .compact-vision-card { padding: 26px 20px; }
+      .ceo-box h3 { font-size: 19px; }
+      .ceo-box p { font-size: 14px; }
+      .signature { font-size: 18px; }
     }
   </style>
 </head>
