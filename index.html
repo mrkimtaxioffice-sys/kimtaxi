@@ -42,28 +42,6 @@
       max-width: 1200px;
       margin: 0 auto;
     }
-    .compact-card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      transition: transform 0.3s;
-      border: 1px solid rgba(0,0,0,0.02);
-    }
-    .compact-card:hover { transform: translateY(-5px); }
-    .compact-card .icon {
-      width: 54px; height: 54px;
-      background: rgba(255, 179, 0, 0.15);
-      color: #ffb300;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px; flex-shrink: 0;
-    }
-    .compact-card .text h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; color: #333; }
-    .compact-card .text p { font-size: 14px; color: #666; margin: 0; line-height: 1.4; word-break: keep-all; }
 
     /* 4. 둥글고 빛나는 토글 버튼 스타일 */
     .toggle-container {
@@ -86,6 +64,8 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       color: #888;
       background: transparent;
+      /* iOS 탭 하이라이트 제거 */
+      -webkit-tap-highlight-color: transparent;
     }
     .toggle-btn.active {
       background: #ffb300;
@@ -94,58 +74,39 @@
       transform: scale(1.02);
     }
 
-    /* 5. FAQ 섹션 레이아웃 수정 (문제 해결 부분) */
+    /* 5. FAQ 섹션 레이아웃 (홈 페이지용) */
     .faq-section {
-      max-width: 100% !important; /* style.css의 너비 제한 해제 */
+      max-width: 100% !important;
       margin: 0 !important;
-      background: #f9f9f9; /* 배경색을 꽉 채움 */
+      background: #f9f9f9;
       padding-bottom: 80px !important;
     }
 
-    /* 6. FAQ 디자인 개선 (카드형 아코디언) */
-    .faq-item {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      overflow: hidden;
-      transition: 0.3s;
+    /* iOS 입력 줌 방지: font-size 16px 이상 */
+    #consultForm input,
+    #consultForm select,
+    #captchaInput {
+      font-size: 16px !important;
     }
-    .faq-question {
-      width: 100%;
-      text-align: left;
-      padding: 20px 24px;
-      background: #fff;
-      border: none;
-      font-size: 16px;
-      font-weight: 700;
-      color: #333;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .faq-question:hover { color: #0077b6; background: #fafafa; }
-    .faq-question i { color: #ccc; transition: 0.3s; font-size: 14px; }
-    
-    .faq-item.active { border-color: #00b4d8; box-shadow: 0 4px 15px rgba(0,180,216,0.12); }
-    .faq-item.active .faq-question i { transform: rotate(180deg); color: #00b4d8; }
-    
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease-out;
-      background: #fafafa;
-      border-top: 1px solid #eee;
-    }
-    .faq-answer p { padding: 20px 24px; font-size: 15px; line-height: 1.6; color: #555; margin: 0; }
 
     /* 모바일 대응 */
     @media (max-width: 900px) {
       .home-service-grid { grid-template-columns: 1fr; gap: 12px; }
-      .home-service-section { margin-top: -40px; padding: 0 20px !important; }
-      .hero { height: 70vh; }
-      .compact-card { padding: 20px; }
+      .home-service-section { margin-top: -40px; padding: 0 16px 30px !important; }
+      .hero { height: 70vh; min-height: 480px; }
+      .hero-text { margin-top: 0; }
+      .hero-text h1 { font-size: 24px !important; word-break: keep-all; }
+      /* 실시간 접수 리스트: 모바일에서 높이 축소 */
+      .scroll-list { height: 260px; }
+    }
+    @media (max-width: 480px) {
+      .hero { height: 65vh; }
+      .hero-text h1 { font-size: 20px !important; }
+      .hero-text p { font-size: 14px !important; }
+      /* 상담 신청 버튼 전체 너비 */
+      .btn.consult { display: block; text-align: center; margin-top: 20px; }
+      /* 토글 버튼 */
+      .toggle-btn { font-size: 14px; padding: 12px 8px; }
     }
   </style>
 </head>
@@ -245,21 +206,21 @@
     <div class="container" style="flex-direction:column; align-items:center;">
       <h2 class="section-title" style="text-align:center; font-size:24px;">생생한 거래 후기</h2>
       
-      <div class="review-grid" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center; margin-top:20px;">
-        <div class="review-card" style="background:#f8f9fa; border:1px solid #eee; border-radius:12px; padding:20px; max-width:350px;">
-          <div style="color:#ffb300; margin-bottom:5px; font-size:14px;">★★★★★</div>
-          <p style="font-size:14px; color:#555; margin-bottom:10px;">"처음이라 막막했는데 서류부터 조합 가입까지 다 알아서 해주시니 너무 편했습니다."</p>
-          <div style="font-size:12px; font-weight:bold; color:#333;">부산진구 박*철 사장님</div>
+      <div class="review-grid" style="margin-top:20px;">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"처음이라 막막했는데 서류부터 조합 가입까지 다 알아서 해주시니 너무 편했습니다."</p>
+          <div class="reviewer">부산진구 박*철 사장님</div>
         </div>
-        <div class="review-card" style="background:#f8f9fa; border:1px solid #eee; border-radius:12px; padding:20px; max-width:350px;">
-          <div style="color:#ffb300; margin-bottom:5px; font-size:14px;">★★★★★</div>
-          <p style="font-size:14px; color:#555; margin-bottom:10px;">"급하게 차를 내놔야 했는데, 김군 상담소 덕분에 좋은 가격에 빨리 거래했습니다."</p>
-          <div style="font-size:12px; font-weight:bold; color:#333;">해운대구 이*석 사장님</div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"급하게 차를 내놔야 했는데, 김군 상담소 덕분에 좋은 가격에 빨리 거래했습니다."</p>
+          <div class="reviewer">해운대구 이*석 사장님</div>
         </div>
-         <div class="review-card" style="background:#f8f9fa; border:1px solid #eee; border-radius:12px; padding:20px; max-width:350px;">
-          <div style="color:#ffb300; margin-bottom:5px; font-size:14px;">★★★★★</div>
-          <p style="font-size:14px; color:#555; margin-bottom:10px;">"다른 곳보다 친절하고 강요가 없어서 좋았습니다. 좋은 넘버 감사합니다."</p>
-          <div style="font-size:12px; font-weight:bold; color:#333;">사하구 최*민 사장님</div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"다른 곳보다 친절하고 강요가 없어서 좋았습니다. 좋은 넘버 감사합니다."</p>
+          <div class="reviewer">사하구 최*민 사장님</div>
         </div>
       </div>
     </div>
@@ -308,7 +269,6 @@
   <script>
     // 0. EmailJS 초기화
     (function() {
-      // ★ 여기에 본인의 EmailJS Public Key를 입력하세요
       emailjs.init("2iseJXtljrKVXtYDP"); 
     })();
 
@@ -339,111 +299,93 @@
       </div>
     `;
 
+    function clearCaptchaInput() {
+      const ci = document.getElementById("captchaInput");
+      if (ci) ci.value = "";
+    }
+
     btnSell.addEventListener("click", () => {
       btnSell.classList.add("active");
       btnBuy.classList.remove("active");
       formContent.innerHTML = sellHTML;
+      clearCaptchaInput();
+      generateCaptcha(); // 폼 전환 시 캡차 새로 생성
     });
 
     btnBuy.addEventListener("click", () => {
       btnBuy.classList.add("active");
       btnSell.classList.remove("active");
       formContent.innerHTML = buyHTML;
+      clearCaptchaInput();
+      generateCaptcha(); // 폼 전환 시 캡차 새로 생성
     });
 
-    // 2. FAQ 아코디언 로직 (충돌 방지)
-    const faqQuestions = document.querySelectorAll(".faq-question");
-    
-    faqQuestions.forEach(btn => {
-      btn.setAttribute("type", "button");
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation(); 
-        e.preventDefault();
-
-        const item = btn.closest(".faq-item");
-        const answer = item.querySelector(".faq-answer");
-        const isActive = item.classList.contains("active");
-        
-        document.querySelectorAll(".faq-item.active").forEach(other => {
-          if (other !== item) {
-            other.classList.remove("active");
-            other.querySelector(".faq-answer").style.maxHeight = "0";
-          }
-        });
-
-        if (isActive) {
-          item.classList.remove("active");
-          answer.style.maxHeight = "0";
-        } else {
-          item.classList.add("active");
-          answer.style.maxHeight = answer.scrollHeight + "px";
-        }
-      });
-    });
-
-    // 3. 캡차 생성
+    // 2. 캡차 생성 (독립 함수 — 토글 시마다 재호출)
     const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    let code = "";
-    for(let i=0; i<4; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
-    document.getElementById("captchaText").innerText = code;
+    function generateCaptcha() {
+      let c = "";
+      for (let i = 0; i < 4; i++) c += chars.charAt(Math.floor(Math.random() * chars.length));
+      const el = document.getElementById("captchaText");
+      if (el) el.innerText = c;
+    }
+    generateCaptcha(); // 최초 1회
 
-// 4. 폼 제출 로직 (수정본)
-document.getElementById("consultForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const userCode = document.getElementById("captchaInput").value.toUpperCase();
-  const realCode = document.getElementById("captchaText").innerText;
+    // 3. 폼 제출 로직
+    document.getElementById("consultForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const userCode = document.getElementById("captchaInput").value.toUpperCase();
+      const realCode = document.getElementById("captchaText").innerText;
 
-  if(userCode !== realCode) {
-    alert("보안 코드가 일치하지 않습니다.");
-    return;
-  }
+      if(userCode !== realCode) {
+        alert("보안 코드가 일치하지 않습니다.");
+        return;
+      }
 
-  const type = document.getElementById("type").value;
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  
-  // 템플릿에 맞게 모든 변수를 기본적으로 빈 값 처리
-  let carModel = "";
-  let carNumber = "";
-  let region = "";
-  let eduStatus = "";
+      const type = document.getElementById("type").value;
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      
+      let carModel = "";
+      let carNumber = "";
+      let region = "";
+      let eduStatus = "";
 
-  // 선택된 타입(양도/양수)에 따라 값 할당
-  if(type === "양도 신청") {
-    carModel = document.getElementById("carModel").value;
-    carNumber = document.getElementById("carNumber").value;
-  } else {
-    region = "부산";
-    eduStatus = document.getElementById("eduStatus").value;
-  }
+      if(type === "양도 신청") {
+        carModel = document.getElementById("carModel").value;
+        carNumber = document.getElementById("carNumber").value;
+      } else {
+        region = "부산";
+        eduStatus = document.getElementById("eduStatus").value;
+      }
 
-// EmailJS 템플릿에서 title을 쓰든 type을 쓰든 둘 다 대응할 수 있도록 수정
-  const params = { 
-    title: type,        // '양도 신청' 또는 '양수 신청'
-    type: type,         // 혹시 템플릿에서 {{type}}을 쓰고 있을 경우를 대비
-    name: name, 
-    phone: phone, 
-    carModel: carModel, 
-    carNumber: carNumber, 
-    region: region, 
-    eduStatus: eduStatus 
-  };
+      const params = { 
+        title: type,
+        type: type,
+        name: name, 
+        phone: phone, 
+        carModel: carModel, 
+        carNumber: carNumber, 
+        region: region, 
+        eduStatus: eduStatus 
+      };
 
-  const msgBox = document.getElementById("submitMsg");
-  msgBox.innerText = "전송 중...";
+      const msgBox = document.getElementById("submitMsg");
+      msgBox.innerText = "전송 중...";
 
-  emailjs.send("service_kimtaxi", "template_4yu2gna", params)
-    .then(() => {
-      msgBox.innerText = "✅ 접수 완료! 곧 연락드릴게요.";
-      msgBox.style.color = "green";
-      document.getElementById("consultForm").reset();
-    })
-    .catch((err) => {
-      console.error(err);
-      msgBox.innerText = "❌ 전송 실패. 전화로 문의주세요.";
-      msgBox.style.color = "red";
+      emailjs.send("service_kimtaxi", "template_4yu2gna", params)
+        .then(() => {
+          msgBox.innerText = "✅ 접수 완료! 곧 연락드릴게요.";
+          msgBox.style.color = "green";
+          document.getElementById("consultForm").reset();
+          clearCaptchaInput();
+          generateCaptcha(); // 제출 후 캡차 새로 생성
+        })
+        .catch((err) => {
+          console.error(err);
+          msgBox.innerText = "❌ 전송 실패. 전화로 문의주세요.";
+          msgBox.style.color = "red";
+        });
     });
-});
   </script>
 </body>
 </html>
