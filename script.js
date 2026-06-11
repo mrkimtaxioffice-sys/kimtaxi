@@ -45,14 +45,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (hamburger && mobileMenu) {
         hamburger.addEventListener("click", () => {
-          mobileMenu.classList.toggle("show");
+          const isOpen = mobileMenu.classList.toggle("show");
           hamburger.classList.toggle("active");
+          hamburger.setAttribute("aria-label", isOpen ? "메뉴 닫기" : "메뉴 열기");
+          hamburger.setAttribute("aria-expanded", isOpen);
+        });
+
+        // 키보드(Enter/Space)로도 메뉴 열기
+        hamburger.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            hamburger.click();
+          }
         });
 
         mobileMenu.querySelectorAll("a").forEach((link) => {
           link.addEventListener("click", () => {
             mobileMenu.classList.remove("show");
             hamburger.classList.remove("active");
+            hamburger.setAttribute("aria-label", "메뉴 열기");
+            hamburger.setAttribute("aria-expanded", "false");
           });
         });
       }
