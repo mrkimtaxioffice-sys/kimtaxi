@@ -723,7 +723,7 @@ section { padding: 80px 20px; }
   .section-header-left h2 { font-size: 28px; }
 
   .stats-row { gap: 12px; }
-  .stat-box { padding: 16px 10px; }
+  .stat-box { padding: 16px 10px; width: 100%; }
   .stat-box h3 { font-size: 22px; }
   .stat-box p { font-size: 12px; }
 
