@@ -2,189 +2,106 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자주 묻는 질문 | 김군 개인택시 상담소</title>
+  <meta name="description" content="김군 개인택시 상담소 자주 묻는 질문. 양수 자격, 양도 시세, 필요 서류, 상담 비용 등 개인택시 거래 궁금증을 빠르게 확인하세요." />
+  <meta name="theme-color" content="#ffffff" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="김군 개인택시 상담소" />
+  <meta property="og:title" content="자주 묻는 질문 | 김군 개인택시 상담소" />
+  <meta property="og:description" content="양수 자격·시세·서류·수수료 — 개인택시 거래 궁금증 모음" />
+  <meta property="og:image" content="og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <!-- ⚠ 카카오톡은 절대주소가 필요합니다: content="https://내도메인/og-image.jpg" 로 바꿔주세요 -->
+
   <link rel="icon" type="image/png" sizes="32x32" href="김군 로고 (32px).png" />
   <link rel="apple-touch-icon" href="김군 로고 (32px).png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  
-  
-
-  <meta name="description" content="김군 개인택시 상담소 자주 묻는 질문. 양수 자격 조건, 양도 시세, 필요 서류, 수수료 등 개인택시 거래에 관한 궁금증을 빠르게 해결하세요." />
-  <title>자주 묻는 질문 | 김군 개인택시 상담소</title>
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800&display=swap" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body { font-family: 'Pretendard', sans-serif !important; }
-
-    @media (max-width: 900px) {
-      .faq-hero { height: 35vh; min-height: 260px; }
-      /* 퀵카드: 소형에서도 가로 배치 유지 */
-      .faq-quick-nav .container { flex-direction: column; }
-      .quick-card { width: 100%; min-width: unset; flex-direction: row; }
-      section { padding: 50px 16px !important; }
-      .faq-grid { grid-template-columns: 1fr; }
-      .category-title { font-size: 18px; }
-      .cta-dark-box { flex-direction: column; text-align: center; padding: 36px 20px; gap: 24px; }
-      .primary-cta { width: 100%; justify-content: center; }
-    }
-    @media (max-width: 480px) {
-      .faq-question { padding: 16px 14px; }
-      .q-text { font-size: 14px; }
-      .ans-content { padding: 16px 14px; font-size: 14px; }
-      .quick-card { padding: 18px; }
-      .icon-circle { width: 42px; height: 42px; font-size: 17px; }
-    }
-  </style>
 </head>
-<body>
+<body id="top" class="page-faq">
 
   <div id="header"></div>
 
-  <section class="faq-hero">
-    <video autoplay muted loop playsinline class="bg-video">
-      <source src="상담사.mp4" type="video/mp4" />
-    </video>
-    <div class="overlay"></div>
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="page-kicker">자주 묻는 질문</p>
+        <h1>궁금한 점을<br>먼저 확인해 보세요</h1>
+        <p class="lead">기사님들이 가장 많이 물어보시는 내용을 모았습니다.</p>
+        <nav class="faq-jump" aria-label="질문 분류">
+          <a href="#cat-buy">살 때 (양수)</a>
+          <a href="#cat-sell">팔 때 (양도)</a>
+          <a href="#cat-etc">비용·기타</a>
+        </nav>
+      </div>
+    </section>
 
-    <div class="hero-inner fade-up">
-      <p class="hero-eyebrow">HELP CENTER</p>
-      <h1>무엇을 도와드릴까요?</h1>
-      <p>자주 묻는 질문을 통해 궁금증을 빠르게 해결하세요.</p>
-    </div>
-  </section>
+    <section class="section">
+      <div class="container narrow">
+        <div id="cat-buy" class="faq-cat">
+          <h2><i class="fa-solid fa-car-side" aria-hidden="true"></i> 개인택시를 살 때</h2>
+        <div class="faq-item">
+          <button class="faq-question"><span>개인택시 양수 자격 조건이 어떻게 되나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>예전에는 사업용(택시·버스 등) 운전경력이 필수였지만, 2021년부터 요건이 완화되었습니다. <strong>무사고 운전경력 5년</strong>, <strong>한국교통안전공단 양수교육(5일) 이수</strong>, <strong>택시운전자격</strong>을 갖추시면 신청하실 수 있습니다. 교육 장소·신청 방법은 <a href="education.html" class="text-link">양수교육 안내</a>에서 확인하세요.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"><span>양수 절차는 어떻게 진행되나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>① 사전 상담 → ② 차량 매칭 → ③ 계약금 입금 → ④ 관할 관청 인가 신청 → ⑤ 잔금 및 명의 이전 순서이며, 보통 15~20일 정도 걸립니다.</p></div>
+        </div>
+        </div>
 
-  <section class="faq-quick-nav">
-    <div class="container">
-      <a href="#cat-buy" class="quick-card fade-up">
-        <div class="icon-circle"><i class="fa-solid fa-car-side"></i></div>
-        <div class="text-area">
-          <h3>개인택시 살 때</h3>
-          <p>양수 자격 및 절차</p>
+        <div id="cat-sell" class="faq-cat">
+          <h2><i class="fa-solid fa-won-sign" aria-hidden="true"></i> 개인택시를 팔 때</h2>
+        <div class="faq-item">
+          <button class="faq-question"><span>내 차 시세는 어떻게 알 수 있나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>'번호판 시세(면허 권리금)' + '차량 가액'으로 정해집니다. 시세는 수시로 바뀌므로 상담 신청 시 오늘 기준 금액을 안내해 드립니다.</p></div>
         </div>
-      </a>
-      <a href="#cat-sell" class="quick-card fade-up" style="transition-delay: 0.1s;">
-        <div class="icon-circle"><i class="fa-solid fa-file-contract"></i></div>
-        <div class="text-area">
-          <h3>개인택시 팔 때</h3>
-          <p>시세 확인 및 서류</p>
+        <div class="faq-item">
+          <button class="faq-question"><span>판매 시 필요한 서류는 무엇인가요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>운송사업 면허증, 인감증명서, 자동차 등록증 등이 필요합니다. 계약 시점에 맞춰 상세 목록을 문자로 보내드립니다.</p></div>
         </div>
-      </a>
-      <a href="#cat-etc" class="quick-card fade-up" style="transition-delay: 0.2s;">
-        <div class="icon-circle"><i class="fa-solid fa-circle-question"></i></div>
-        <div class="text-area">
-          <h3>기타 / 설치</h3>
-          <p>장비 및 수수료</p>
         </div>
-      </a>
-    </div>
-  </section>
 
-  <section class="faq-section">
-    <div class="container">
-      
-      <div id="cat-buy" class="faq-category fade-up">
-        <h3 class="category-title"><i class="fa-solid fa-check"></i> 개인택시 양수(구매)</h3>
-        <div class="faq-grid">
-          <div class="faq-item">
-            <button class="faq-question">
-              <span class="q-text">Q. 개인택시 양수 자격 조건이 어떻게 되나요?</span>
-              <span class="q-icon"><i class="fa-solid fa-plus"></i></span>
-            </button>
-            <div class="faq-answer">
-              <div class="ans-content">
-                <p>과거에는 영업용 운전 경력이 필수였으나, 현재는 완화되었습니다.<br><strong>1) 무사고 5년 경력</strong>과 <strong>2) 교통안전공단 양수교육(5일)</strong>을 이수하시면 누구나 가능합니다.</p>
-              </div>
-            </div>
+        <div id="cat-etc" class="faq-cat">
+          <h2><i class="fa-regular fa-comments" aria-hidden="true"></i> 비용·기타</h2>
+        <div class="faq-item">
+          <button class="faq-question"><span>상담 비용이 있나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>시세·자격 확인 등 기본 상담은 <strong>무료</strong>입니다. 실제 거래가 성사된 경우에만 중개 수수료가 발생하며, 금액은 <strong>계약 전에 미리</strong> 안내해 드립니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"><span>블랙박스·미터기 설치도 도와주시나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>네, 부산 지역 협력 업체를 소개해 드립니다. 원하시는 브랜드나 예산에 맞춰 예약을 도와드립니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"><span>시세 소식을 꾸준히 받아볼 수 있나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>김군·김양 블로그 이웃추가, 유튜브 구독, 기사님 카페 가입을 해두시면 새 글과 영상을 바로 받아보실 수 있습니다. 페이지 맨 아래 채널 버튼을 눌러주세요.</p></div>
+        </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>원하시는 답을 찾지 못하셨나요?</h2>
+            <p>김군에게 직접 물어보세요. 빠르고 정확하게 안내해 드립니다.</p>
           </div>
-          <div class="faq-item">
-            <button class="faq-question">
-              <span class="q-text">Q. 양수 절차는 어떻게 진행되나요?</span>
-              <span class="q-icon"><i class="fa-solid fa-plus"></i></span>
-            </button>
-            <div class="faq-answer">
-              <div class="ans-content">
-                <p><strong>① 사전 상담 → ② 차량 매칭 → ③ 계약금 입금 → ④ 구청 인가 신청 → ④ 잔금 및 명의 이전</strong> 순서이며, 약 15~20일 소요됩니다.</p>
-              </div>
-            </div>
+          <div class="cta-actions">
+            <a href="index.html#consult" class="btn-yellow">상담 예약하기</a>
+            <a href="tel:01055559156" class="btn-line-light"><i class="fa-solid fa-phone" aria-hidden="true"></i> 010-5555-9156</a>
           </div>
         </div>
       </div>
-
-      <div id="cat-sell" class="faq-category fade-up">
-        <h3 class="category-title"><i class="fa-solid fa-won-sign"></i> 개인택시 양도(판매)</h3>
-        <div class="faq-grid">
-          <div class="faq-item">
-            <button class="faq-question">
-              <span class="q-text">Q. 내 차 시세는 어떻게 알 수 있나요?</span>
-              <span class="q-icon"><i class="fa-solid fa-plus"></i></span>
-            </button>
-            <div class="faq-answer">
-              <div class="ans-content">
-                <p><strong>'번호판 시세(권리금)' + '차량 가액'</strong>으로 결정됩니다. 시세는 매주 변동되므로 상담 신청 시 오늘 기준 정확한 금액을 안내해 드립니다.</p>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question">
-              <span class="q-text">Q. 판매 시 필요한 서류는 무엇인가요?</span>
-              <span class="q-icon"><i class="fa-solid fa-plus"></i></span>
-            </button>
-            <div class="faq-answer">
-              <div class="ans-content">
-                <p><strong>운송사업 허가증, 인감증명서, 자동차 등록증</strong> 등이 필요합니다. 계약 시점에 맞춰 상세 리스트를 문자로 보내드립니다.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="cat-etc" class="faq-category fade-up">
-        <h3 class="category-title"><i class="fa-regular fa-comments"></i> 기타 / 일반 문의</h3>
-        <div class="faq-grid">
-          <div class="faq-item">
-            <button class="faq-question">
-              <span class="q-text">Q. 블랙박스/미터기 설치도 도와주시나요?</span>
-              <span class="q-icon"><i class="fa-solid fa-plus"></i></span>
-            </button>
-            <div class="faq-answer">
-              <div class="ans-content">
-                <p>네, 부산 지역 내 <strong>신뢰할 수 있는 협력 업체</strong>를 연결해 드립니다. 원하시는 브랜드나 예산에 맞춰 예약해 드립니다.</p>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question">
-              <span class="q-text">Q. 상담 수수료가 있나요?</span>
-              <span class="q-icon"><i class="fa-solid fa-plus"></i></span>
-            </button>
-            <div class="faq-answer">
-              <div class="ans-content">
-                <p>단순 시세/자격 조회 상담은 <strong>무료</strong>입니다. 실제 계약 체결 시에만 법정 수수료가 발생합니다.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="faq-cta-section">
-    <div class="cta-dark-box fade-up">
-      <div class="cta-content">
-        <h3>원하시는 답변을 찾지 못하셨나요?</h3>
-        <p>김군에게 직접 물어보세요. 빠르고 정확하게 안내해 드립니다.</p>
-      </div>
-      <a href="index.html#consult" class="btn primary-cta">
-        <i class="fa-solid fa-paper-plane"></i> 온라인 상담 신청
-      </a>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <div id="footer"></div>
   <script src="script.js"></script>
-
 </body>
 </html>
