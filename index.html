@@ -3,392 +3,497 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>김군 개인택시 상담소 | 부산 개인택시 양도·양수 상담</title>
+  <meta name="description" content="부산 개인택시 번호판 양도·양수 상담소. 상담 예약, 양수교육 안내, 인가 서류와 조합 가입까지 순서대로 챙겨 드립니다. 기본 상담 무료." />
+  <meta name="theme-color" content="#ffffff" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="김군 개인택시 상담소" />
+  <meta property="og:title" content="김군 개인택시 상담소 | 부산 개인택시 양도·양수 상담" />
+  <meta property="og:description" content="상담 예약부터 양수교육 안내까지 — 부산 개인택시 양도·양수 무료 상담" />
+  <meta property="og:image" content="og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <!-- ⚠ 카카오톡은 절대주소가 필요합니다: content="https://내도메인/og-image.jpg" 로 바꿔주세요 -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="김군 로고 (32px).png" />
-  
   <link rel="apple-touch-icon" href="김군 로고 (32px).png" />
 
-  <meta name="description" content="부산 개인택시 양도·양수 전문 상담소. 복잡한 행정 서류, 시세 분석, 금융 설계까지 원스톱으로 해결해 드립니다. 무료 상담 신청 가능." />
-  <title>김군 개인택시 상담소 | 부산 1등 택시 중개</title>
-  
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800&display=swap" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-  <style>
-    /* 폰트 전역 적용 */
-    body { font-family: 'Pretendard', sans-serif !important; }
-
-    /* 1. 기본 섹션 여백 축소 */
-    section { padding: 60px 20px !important; }
-    
-    /* 2. Hero 높이 조정 및 서비스 오버랩 */
-    .hero { height: 85vh; min-height: 600px; padding-bottom: 80px !important; }
-    .hero-text { margin-top: -40px; }
-
-    /* 3. 서비스 섹션 (오버랩 디자인) */
-    .home-service-section {
-      margin-top: -80px;
-      padding-top: 0 !important;
-      padding-bottom: 40px !important;
-      position: relative;
-      z-index: 10;
-    }
-    .home-service-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* 4. 둥글고 빛나는 토글 버튼 스타일 */
-    .toggle-container {
-      background: #f5f5f5;
-      padding: 6px;
-      border-radius: 50px;
-      display: flex;
-      gap: 5px;
-      margin-bottom: 25px;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .toggle-btn {
-      flex: 1;
-      border: none;
-      padding: 14px;
-      border-radius: 40px;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      color: #888;
-      background: transparent;
-      /* iOS 탭 하이라이트 제거 */
-      -webkit-tap-highlight-color: transparent;
-    }
-    .toggle-btn.active {
-      background: #ffb300;
-      color: #1c1c1c;
-      box-shadow: 0 4px 20px rgba(255, 179, 0, 0.5);
-      transform: scale(1.02);
-    }
-
-    /* 5. FAQ 섹션 레이아웃 (홈 페이지용) */
-    .faq-section {
-      max-width: 100% !important;
-      margin: 0 !important;
-      background: #f9f9f9;
-      padding-bottom: 80px !important;
-    }
-
-    /* iOS 입력 줌 방지: font-size 16px 이상 */
-    #consultForm input,
-    #consultForm select,
-    #captchaInput {
-      font-size: 16px !important;
-    }
-
-    /* 모바일 대응 */
-    @media (max-width: 900px) {
-      .home-service-grid { grid-template-columns: 1fr; gap: 12px; }
-      .home-service-section { margin-top: -40px; padding: 0 16px 30px !important; }
-      .hero { height: 70vh; min-height: 480px; }
-      .hero-text { margin-top: 0; }
-      .hero-text h1 { font-size: 24px !important; word-break: keep-all; }
-      /* 실시간 접수 리스트: 모바일에서 높이 축소 */
-      .scroll-list { height: 260px; }
-      /* 후기 그리드: 모바일 1열 */
-      .review-grid { flex-direction: column; align-items: center; }
-      .review-card { min-width: unset; width: 100%; max-width: 100%; }
-    }
-    @media (max-width: 480px) {
-      .hero { height: 65vh; }
-      .hero-text h1 { font-size: 20px !important; }
-      .hero-text p { font-size: 14px !important; }
-      /* 상담 신청 버튼 전체 너비 */
-      .btn.consult { display: block; text-align: center; margin-top: 20px; }
-      /* 토글 버튼 */
-      .toggle-btn { font-size: 14px; padding: 12px 8px; }
-    }
-  </style>
 </head>
-<body>
+<body id="top" class="page-home">
 
   <div id="header"></div>
 
-  <section class="hero">
-    <video autoplay muted loop playsinline class="bg-video">
-      <source src="여름_택시.mp4" type="video/mp4" />
-    </video>
-    <div class="overlay"></div>
-    
-    <div class="hero-text fade-up">
-      <span class="hero-badge">Busan Taxi No.1</span>
-      <h1>부산 개인택시의 모든 것,<br>김군이 해결해 드립니다.</h1>
-      <p>복잡한 절차는 잊으세요. 상담부터 행정까지 원스톱으로 처리합니다.</p>
-      <a href="#consult" class="btn consult" style="margin-top:15px;">무료 상담 신청하기</a>
-    </div>
-  </section>
+  <main>
+    <!-- 계절 안내 띠 (가을 포인트) — 계절이 바뀌면 문구만 교체 -->
+    <a href="education.html" class="season-bar">
+      <span class="season-leaf" aria-hidden="true"><i class="fa-solid fa-leaf"></i></span>
+      연말 전 운행을 생각하신다면, 양수교육 일정부터 확인하세요
+      <span class="season-link">양수교육 안내 보기</span>
+    </a>
 
-  <div class="home-service-section">
-    <div class="home-service-grid fade-up">
-      <div class="compact-card">
-        <div class="icon"><i class="fa-solid fa-handshake"></i></div>
-        <div class="text">
-          <h3>안전한 양도·양수</h3>
-          <p>권리 분석부터 계약까지 법적 보호 아래 진행</p>
+    <!-- ① 히어로: 번호판이 주인공 -->
+    <section class="home-hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="hero-kicker">부산 개인택시 양도·양수 상담소</p>
+          <h1>부산 개인택시 번호판,<br>사고팔 때는 김군과 상의하세요.</h1>
+          <p class="hero-lead">상담부터 인가 서류, 조합 가입, 운행 준비까지 순서대로 챙겨 드립니다. 시세는 매일 달라지니 연락 주시면 오늘 기준으로 안내해 드립니다.</p>
+          <div class="hero-actions">
+            <a href="#consult" class="btn-ink">상담 예약하기</a>
+            <a href="tel:01055559156" class="btn-line"><i class="fa-solid fa-phone" aria-hidden="true"></i> 010-5555-9156</a>
+          </div>
+          <ul class="hero-facts">
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> 기본 상담 무료</li>
+            <li><i class="fa-regular fa-clock" aria-hidden="true"></i> 평일 09:00–18:00</li>
+            <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> 부산 동래구 충렬사로</li>
+          </ul>
+          <div class="hero-channels">
+            <span>상담 전에 미리 보기</span>
+            <a href="https://blog.naver.com/mrkim_taxioffice" target="_blank" rel="noopener" style="--ch:#03c75a" title="김군 블로그"><i class="fa-solid fa-blog" aria-hidden="true"></i><em>김군 블로그</em></a>
+            <a href="https://blog.naver.com/mrkim_taxikimyang" target="_blank" rel="noopener" style="--ch:#00a19a" title="김양 블로그"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i><em>김양 블로그</em></a>
+            <a href="https://www.youtube.com/results?search_query=%EB%B6%80%EC%82%B0%EA%B0%9C%EC%9D%B8%ED%83%9D%EC%8B%9C%EC%83%81%EB%8B%B4%EC%86%8C" target="_blank" rel="noopener" style="--ch:#e62117" title="유튜브"><i class="fa-brands fa-youtube" aria-hidden="true"></i><em>유튜브</em></a>
+            <a href="https://cafe.naver.com/busantaximembers" target="_blank" rel="noopener" style="--ch:#2db400" title="네이버 카페"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i><em>카페</em></a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <picture>
+            <source srcset="plate.webp" type="image/webp" />
+            <img src="plate.png" class="plate-img" width="1200" height="600"
+                 alt="노란 영업용 번호판에 새긴 '부산 양도양수 전문 매매상사 김군 개인택시 상담소'" />
+          </picture>
+          <p class="plate-caption">정직과 신뢰로 함께하는<br>개인택시 양도양수</p>
         </div>
       </div>
-      <div class="compact-card">
-        <div class="icon"><i class="fa-solid fa-file-signature"></i></div>
-        <div class="text">
-          <h3>행정 서류 대행</h3>
-          <p>구청 인가, 사업자 등록 등 복잡한 서류 해결</p>
+    </section>
+
+    <!-- ② 바로가기 -->
+    <nav class="quick-row" aria-label="바로가기">
+      <div class="container quick-grid">
+        <a href="#consult" class="quick-item">
+          <span class="quick-icon"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i></span>
+          <strong>상담 예약</strong>
+          <span>원하는 날짜·시간에 연락드립니다</span>
+        </a>
+        <a href="education.html" class="quick-item">
+          <span class="quick-icon"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></span>
+          <strong>양수교육 안내</strong>
+          <span>자격·장소·신청 방법 정리</span>
+        </a>
+        <a href="tel:01055559156" class="quick-item">
+          <span class="quick-icon"><i class="fa-solid fa-phone" aria-hidden="true"></i></span>
+          <strong>전화 상담</strong>
+          <span>010-5555-9156</span>
+        </a>
+        <a href="https://open.kakao.com/o/sWi4vySh" target="_blank" rel="noopener" class="quick-item">
+          <span class="quick-icon kakao"><i class="fa-solid fa-comment" aria-hidden="true"></i></span>
+          <strong>카카오톡 상담</strong>
+          <span>사진·서류도 편하게 보내세요</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- ③ 일하는 방식 — ⚠ 실제 운영 방식과 다르면 문구를 고쳐주세요 -->
+    <section class="section">
+      <div class="container split">
+        <div class="split-head">
+          <h2 class="title">김군은<br>이렇게 진행합니다</h2>
+          <p class="lead">번호판 거래는 한 번 하면 몇 년을 좌우합니다. 그래서 서두르지 않고, 단계마다 확인하며 갑니다.</p>
+        </div>
+        <ul class="feature-list">
+          <li>
+            <span class="feature-icon"><i class="fa-solid fa-route" aria-hidden="true"></i></span>
+            <div>
+              <h3>기사님별 진행표</h3>
+              <p>첫 상담에서 자격·예산·희망 시기를 확인하고, 계약부터 운행 시작까지 날짜별 진행표를 함께 짭니다.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-icon"><i class="fa-solid fa-bell" aria-hidden="true"></i></span>
+            <div>
+              <h3>단계마다 먼저 연락</h3>
+              <p>계약금, 인가, 잔금, 장비 설치. 단계가 넘어갈 때마다 먼저 연락드려 지금 어디까지 왔는지 늘 아실 수 있습니다.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
+            <div>
+              <h3>시세 흐름 공유</h3>
+              <p>숫자 하나보다 흐름이 중요합니다. 블로그·유튜브·카페에서 부산 시세 흐름과 제도 변화를 꾸준히 정리합니다.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ④ 진행 순서 (실제 순서이므로 번호 사용) — 도로 차선 모티프 -->
+    <section class="section road-section">
+      <div class="container">
+        <h2 class="title center">상담부터 운행까지</h2>
+        <p class="lead center">보통 15~20일 정도 걸립니다. 서류와 일정은 김군이 함께 챙깁니다.</p>
+        <ol class="road-steps">
+          <li><span class="step-no">1</span><h3>상담</h3><p>자격·예산·시기 확인</p></li>
+          <li><span class="step-no">2</span><h3>매칭·계약</h3><p>조건에 맞는 상대 연결</p></li>
+          <li><span class="step-no">3</span><h3>인가·조합 가입</h3><p>필요 서류 준비 안내</p></li>
+          <li><span class="step-no">4</span><h3>운행 시작</h3><p>장비 설치 업체 연계</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ⑤ 채널 유도 — ⚠ 유튜브 채널 주소를 받으면 href 교체 (지금은 채널명 검색 결과) -->
+    <section class="section channels" id="channels">
+      <div class="container">
+        <div class="channels-head">
+          <h2 class="title">상담 전, 김군 채널에서<br>먼저 알아보세요</h2>
+          <p class="lead">시세 흐름과 절차를 미리 보고 오시면 상담이 훨씬 빨라집니다. 이웃추가·구독해 두시면 새 소식을 가장 먼저 받아보실 수 있습니다.</p>
+        </div>
+        <div class="channel-grid">
+          <a href="https://blog.naver.com/mrkim_taxioffice" target="_blank" rel="noopener" class="channel" style="--ch:#03c75a">
+            <span class="ch-top"><span class="ch-icon"><i class="fa-solid fa-blog" aria-hidden="true"></i></span><span class="ch-kind">네이버 블로그</span></span>
+            <strong>김군 블로그</strong>
+            <ul class="ch-topics"><li>부산 번호판 시세 흐름</li><li>양도·양수 절차와 서류</li><li>제도 변화 소식</li></ul>
+            <span class="ch-cta">블로그 이웃추가하기</span>
+          </a>
+          <a href="https://blog.naver.com/mrkim_taxikimyang" target="_blank" rel="noopener" class="channel" style="--ch:#00a19a">
+            <span class="ch-top"><span class="ch-icon"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i></span><span class="ch-kind">네이버 블로그</span></span>
+            <strong>김양 블로그</strong>
+            <ul class="ch-topics"><li>차량 선택 가이드</li><li>창업 비용 정리</li><li>보험·운영 준비</li></ul>
+            <span class="ch-cta">블로그 이웃추가하기</span>
+          </a>
+          <a href="https://www.youtube.com/results?search_query=%EB%B6%80%EC%82%B0%EA%B0%9C%EC%9D%B8%ED%83%9D%EC%8B%9C%EC%83%81%EB%8B%B4%EC%86%8C" target="_blank" rel="noopener" class="channel" style="--ch:#e62117">
+            <span class="ch-top"><span class="ch-icon"><i class="fa-brands fa-youtube" aria-hidden="true"></i></span><span class="ch-kind">유튜브</span></span>
+            <strong>부산개인택시상담소</strong>
+            <ul class="ch-topics"><li>부산 시세·양수 이야기</li><li>전국 택시 수입 정보</li><li>자주 묻는 질문 Q&amp;A</li></ul>
+            <span class="ch-cta">채널 구독하기</span>
+          </a>
+          <a href="https://cafe.naver.com/busantaximembers" target="_blank" rel="noopener" class="channel" style="--ch:#2db400">
+            <span class="ch-top"><span class="ch-icon"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i></span><span class="ch-kind">네이버 카페</span></span>
+            <strong>기사님 커뮤니티 카페</strong>
+            <ul class="ch-topics"><li>부산 기사님 정보 교류</li><li>운행 경험·노하우</li><li>질문하고 답 듣기</li></ul>
+            <span class="ch-cta">카페 가입하기</span>
+          </a>
         </div>
       </div>
-      <div class="compact-card">
-        <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
-        <div class="text">
-          <h3>금융 및 대출</h3>
-          <p>1금융권 최저 금리 연계 및 맞춤 자금 설계</p>
+    </section>
+
+    <!-- ⑥ 가을 포인트 띠 -->
+    <section class="autumn-band-wrap">
+      <div class="container">
+        <div class="autumn-band">
+          <video autoplay muted loop playsinline class="band-video" aria-hidden="true" poster="autumn_main_poster.jpg">
+            <source src="autumn_main.mp4" type="video/mp4" />
+          </video>
+          <div class="band-copy">
+            <p class="band-kicker"><i class="fa-solid fa-leaf" aria-hidden="true"></i> 가을 상담 시즌</p>
+            <h2>연말 전에 운행을 시작하려면<br>교육 회차와 매물 시기를 지금 맞춰야 합니다.</h2>
+            <a href="education.html" class="btn-yellow">양수교육 안내 보기</a>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <section id="consult" class="consult-section" style="background: #f9f9f9;">
-    <div class="container">
-      
-      <div class="form-area fade-up">
-        <h2 class="section-title">📄 간편 상담 신청</h2>
-        <p class="section-subtitle">정보를 남겨주시면 김군이 순차적으로 연락드립니다.</p>
+    <!-- ⑥ 상담 예약 -->
+    <section id="consult" class="section consult">
+      <div class="container consult-grid">
+        <div class="form-card">
+          <h2 class="title">상담 예약</h2>
+          <p class="lead">편한 방식과 시간을 남겨주시면 그 시간에 맞춰 연락드립니다.</p>
 
-        <div class="toggle-container">
-          <button type="button" id="btnSell" class="toggle-btn active">양도(판매)</button>
-          <button type="button" id="btnBuy" class="toggle-btn">양수(구입)</button>
-        </div>
-
-        <form id="consultForm">
-          <div id="formContent">
-            <input type="hidden" id="type" value="양도 신청" />
-            <div class="input-group"><label>이름</label><input type="text" id="name" placeholder="성함" required /></div>
-            <div class="input-group"><label>연락처</label><input type="text" id="phone" placeholder="010-0000-0000" required /></div>
-            <div class="input-group"><label>차량모델</label><input type="text" id="carModel" placeholder="예: 그랜저IG" /></div>
-            <div class="input-group"><label>차량번호</label><input type="text" id="carNumber" placeholder="예: 36바 1234" /></div>
+          <div class="toggle-container" role="group" aria-label="상담 종류 선택">
+            <button type="button" id="btnSell" class="toggle-btn active" aria-pressed="true">팔고 싶어요 (양도)</button>
+            <button type="button" id="btnBuy" class="toggle-btn" aria-pressed="false">사고 싶어요 (양수)</button>
           </div>
 
-          <div class="captcha-box">
-            <input type="text" id="captchaInput" placeholder="보안코드" required />
-            <div class="captcha-code" id="captchaText">ABCD</div>
+          <form id="consultForm" novalidate>
+            <div id="formContent"></div>
+
+            <fieldset class="booking-box">
+              <legend>상담 방식과 시간</legend>
+              <div class="input-group">
+                <span class="group-label" id="methodLabel">상담 방식</span>
+                <div class="chip-group" role="radiogroup" aria-labelledby="methodLabel">
+                  <label class="chip"><input type="radio" name="method" value="전화 상담" checked /><span><i class="fa-solid fa-phone" aria-hidden="true"></i> 전화</span></label>
+                  <label class="chip"><input type="radio" name="method" value="방문 상담" /><span><i class="fa-solid fa-store" aria-hidden="true"></i> 방문</span></label>
+                  <label class="chip"><input type="radio" name="method" value="카카오톡 상담" /><span><i class="fa-solid fa-comment" aria-hidden="true"></i> 카톡</span></label>
+                </div>
+              </div>
+              <div class="booking-row">
+                <div class="input-group">
+                  <label for="visitDate">희망 날짜</label>
+                  <input type="date" id="visitDate" />
+                </div>
+                <div class="input-group">
+                  <label for="visitTime">희망 시간대</label>
+                  <select id="visitTime">
+                    <option value="시간 무관">시간 무관</option>
+                    <option value="오전 (09~12시)">오전 (09~12시)</option>
+                    <option value="점심 이후 (13~15시)">점심 이후 (13~15시)</option>
+                    <option value="오후 (15~18시)">오후 (15~18시)</option>
+                  </select>
+                </div>
+              </div>
+              <p class="booking-note">날짜를 비워두시면 가장 빠른 시간에 연락드립니다.</p>
+            </fieldset>
+
+            <div class="hp-field" aria-hidden="true">
+              <label for="website">웹사이트</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="captcha-box">
+              <input type="text" id="captchaInput" placeholder="오른쪽 보안코드 입력" maxlength="4" autocomplete="off" aria-label="보안코드 입력" required />
+              <div class="captcha-code" id="captchaText" aria-live="polite"></div>
+            </div>
+
+            <label class="privacy">
+              <input type="checkbox" id="privacyAgree" required /> [필수] 개인정보 수집·이용 동의
+            </label>
+            <details class="privacy-detail">
+              <summary>수집·이용 내용 보기</summary>
+              <ul>
+                <li>수집 목적: 상담 예약 확인 및 회신 연락</li>
+                <li>수집 항목: 이름, 연락처, 상담 방식·희망 일시 / (양도) 차량모델·차량번호 / (양수) 양수교육 이수 여부</li>
+                <li>보유 기간: 상담 종료 후 1년까지 보관 후 파기</li>
+                <li>동의를 거부하실 수 있으며, 거부 시 온라인 예약만 제한됩니다. (전화·카카오톡 상담은 가능)</li>
+                <li>접수 내용은 이메일 발송 서비스(EmailJS)를 통해 상담소 메일로 전달됩니다. 자세한 내용은 <a href="privacy.html">개인정보처리방침</a>을 확인해 주세요.</li>
+              </ul>
+            </details>
+
+            <button type="submit" class="btn-ink btn-block" id="submitBtn">상담 예약하기</button>
+            <p id="submitMsg" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <aside class="consult-aside">
+          <div class="aside-block">
+            <h3>바로 통화하고 싶다면</h3>
+            <a href="tel:01055559156" class="aside-tel">010-5555-9156</a>
+            <p>평일 09:00–18:00 · 주말·공휴일 휴무</p>
+            <a href="https://open.kakao.com/o/sWi4vySh" target="_blank" rel="noopener" class="btn-kakao"><i class="fa-solid fa-comment" aria-hidden="true"></i> 카카오톡으로 상담하기</a>
           </div>
+          <a href="#channels" class="aside-block aside-channels">
+            <h3>기다리는 동안 미리 보기</h3>
+            <p>김군·김양 블로그, 유튜브, 기사님 카페에서 시세 흐름과 절차를 먼저 확인해 보세요.</p>
+            <span class="aside-icons" aria-hidden="true"><i class="fa-solid fa-blog" style="color:#03c75a"></i><i class="fa-solid fa-pen-nib" style="color:#00a19a"></i><i class="fa-brands fa-youtube" style="color:#e62117"></i><i class="fa-solid fa-mug-hot" style="color:#2db400"></i></span>
+          </a>
+          <div class="aside-block">
+            <h3>자주 받는 상담</h3>
+            <ul id="topicList" class="topic-list"></ul>
+          </div>
+        </aside>
+      </div>
+    </section>
 
-          <label class="privacy" style="font-size:13px;">
-            <input type="checkbox" required /> 개인정보 수집 이용 동의
-          </label>
+    <!-- ⑧ 후기 — ⚠ 실제 고객이 작성(또는 동의)한 내용만 게재. 근거 보관 -->
+    <section class="section reviews">
+      <div class="container">
+        <h2 class="title">거래를 마친 기사님들의 이야기</h2>
+        <div class="review-grid">
+          <figure class="review">
+            <blockquote>처음이라 막막했는데 서류부터 조합 가입까지 하나하나 챙겨주셔서 편했습니다.</blockquote>
+            <figcaption>부산진구 박*철 사장님 · 양수</figcaption>
+          </figure>
+          <figure class="review">
+            <blockquote>급하게 차를 내놔야 했는데, 김군 상담소 덕분에 좋은 가격에 빨리 거래했습니다.</blockquote>
+            <figcaption>해운대구 이*석 사장님 · 양도</figcaption>
+          </figure>
+          <figure class="review">
+            <blockquote>다른 곳보다 친절하고 강요가 없어서 좋았습니다. 좋은 넘버 감사합니다.</blockquote>
+            <figcaption>사하구 최*민 사장님 · 양수</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
 
-          <button type="submit" class="btn submit">상담 신청하기</button>
-          <p id="submitMsg" style="margin-top:10px; font-weight:bold; text-align:center; font-size:14px;"></p>
-        </form>
+    <!-- ⑨ FAQ -->
+    <section class="section home-faq">
+      <div class="container narrow">
+        <h2 class="title">자주 묻는 질문</h2>
+        <div class="faq-item">
+          <button class="faq-question"><span>개인택시 양수 자격 조건은?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>무사고 운전경력 5년, 한국교통안전공단 양수교육(5일) 이수, 택시운전자격이 기본 요건입니다. 자세한 내용은 <a href="education.html" class="text-link">양수교육 안내</a>에서 확인하세요.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"><span>양도 시세는 어떻게 결정되나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>번호판 시세(면허 권리금)와 차량 가액을 더해 정해지며, 수요·공급에 따라 수시로 바뀝니다. 그래서 홈페이지에 고정 숫자를 올리지 않고, 연락 주시면 오늘 기준으로 안내해 드립니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question"><span>상담 예약 후 언제 연락 오나요?</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer"><p>희망 날짜·시간대를 남기셨다면 그 시간에 맞춰 연락드립니다. 비워두셨다면 평일 업무 시간 기준 1시간 안에, 야간·주말 신청은 다음 영업일 오전에 연락드립니다.</p></div>
+        </div>
+        <a href="faq.html" class="more-link">질문 더 보기</a>
       </div>
-
-      <div class="list-area fade-up">
-        <div class="list-header">
-          <h2 class="section-title">📌 실시간 접수</h2>
-          <p class="section-subtitle">현재 많은 사장님들이 상담 중입니다.</p>
-        </div>
-        <div class="scroll-list">
-          <ul id="fakeList">
-            </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="review-section" style="background:#fff;">
-    <div class="container" style="flex-direction:column; align-items:center;">
-      <h2 class="section-title" style="text-align:center; font-size:24px;">생생한 거래 후기</h2>
-      
-      <div class="review-grid" style="margin-top:20px;">
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>"처음이라 막막했는데 서류부터 조합 가입까지 다 알아서 해주시니 너무 편했습니다."</p>
-          <div class="reviewer">부산진구 박*철 사장님</div>
-        </div>
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>"급하게 차를 내놔야 했는데, 김군 상담소 덕분에 좋은 가격에 빨리 거래했습니다."</p>
-          <div class="reviewer">해운대구 이*석 사장님</div>
-        </div>
-        <div class="review-card">
-          <div class="stars">★★★★★</div>
-          <p>"다른 곳보다 친절하고 강요가 없어서 좋았습니다. 좋은 넘버 감사합니다."</p>
-          <div class="reviewer">사하구 최*민 사장님</div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <section class="faq-section">
-    <div class="container" style="display:block; max-width:800px; margin: 0 auto;">
-      <h2 class="section-title" style="text-align:center; margin-bottom:30px; font-size:24px;">자주 묻는 질문</h2>
-      
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>개인택시 양수 자격 조건은?</span>
-          <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <p>무사고 5년 경력과 교통안전공단 양수교육(5일)을 이수하시면 누구나 가능합니다. 자세한 자격 조회는 상담 시 무료로 확인해 드립니다.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>양도 시세는 어떻게 결정되나요?</span>
-          <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <p>시장의 수요/공급에 따라 매주 변동됩니다. 전화주시면 오늘 기준 가장 정확한 실시간 시세를 안내해 드립니다.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item fade-up">
-        <button class="faq-question">
-          <span>상담 신청 후 언제 연락 오나요?</span>
-          <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <p>평일 업무 시간(09:00 ~ 18:00) 내 신청 시 1시간 이내 연락드립니다. (야간/주말은 다음 영업일 오전에 빠르게 연락드립니다.)</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <div id="footer"></div>
-
   <script src="script.js"></script>
-
   <script>
-    // 0. EmailJS 초기화
-    (function() {
-      emailjs.init("2iseJXtljrKVXtYDP"); 
-    })();
+    /* ===== 상담 예약 폼 (index.html 전용) ===== */
 
-    // 1. 폼 토글 기능
+    // 0) EmailJS 초기화
+    //    ※ 공개키는 원래 노출되는 값입니다. 대신 EmailJS 대시보드 > Account > Security 에서
+    //      'Allowed Origins'에 내 도메인만 등록해 두세요(타 사이트에서 무단 발송 방지).
+    //    ※ 이메일 템플릿에 {{method}}, {{visitDate}}, {{visitTime}} 을 추가해야 예약 정보가 본문에 보입니다.
+    //      (추가 전에도 제목 {{title}} 에는 예약 정보가 함께 들어갑니다)
+    if (window.emailjs) emailjs.init({ publicKey: "2iseJXtljrKVXtYDP" });
+
+    // 1) 양도/양수 폼 전환
     const formContent = document.getElementById("formContent");
     const btnSell = document.getElementById("btnSell");
     const btnBuy = document.getElementById("btnBuy");
 
+    const commonFields = `
+      <div class="input-group"><label for="name">이름</label><input type="text" id="name" placeholder="성함" autocomplete="name" maxlength="20" required /></div>
+      <div class="input-group"><label for="phone">연락처</label><input type="tel" id="phone" placeholder="010-0000-0000" inputmode="numeric" autocomplete="tel" maxlength="13" required /></div>
+    `;
+
     const sellHTML = `
       <input type="hidden" id="type" value="양도 신청" />
-      <div class="input-group"><label>이름</label><input type="text" id="name" placeholder="성함" required /></div>
-      <div class="input-group"><label>연락처</label><input type="text" id="phone" placeholder="010-0000-0000" required /></div>
-      <div class="input-group"><label>차량모델</label><input type="text" id="carModel" placeholder="예: 그랜저IG" /></div>
-      <div class="input-group"><label>차량번호</label><input type="text" id="carNumber" placeholder="예: 36바 1234" /></div>
+      ${commonFields}
+      <div class="booking-row">
+        <div class="input-group"><label for="carModel">차량모델</label><input type="text" id="carModel" placeholder="예: 그랜저IG" maxlength="30" /></div>
+        <div class="input-group"><label for="carNumber">차량번호</label><input type="text" id="carNumber" placeholder="예: 36바 1234" maxlength="15" /></div>
+      </div>
     `;
 
     const buyHTML = `
       <input type="hidden" id="type" value="양수 신청" />
-      <div class="input-group"><label>이름</label><input type="text" id="name" placeholder="성함" required /></div>
-      <div class="input-group"><label>연락처</label><input type="text" id="phone" placeholder="010-0000-0000" required /></div>
-      <div class="input-group"><label>희망지역</label><input type="text" id="region" value="부산" readonly /></div>
-      <div class="input-group"><label>양수교육</label>
+      ${commonFields}
+      <div class="input-group"><label for="eduStatus">양수교육</label>
         <select id="eduStatus">
           <option value="이수 완료">이수 완료</option>
-          <option value="이수 전">이수 전</option>
-          <option value="면제 대상">면제(경력자)</option>
+          <option value="이수 전 (일정 안내 필요)">이수 전 (일정 안내 필요)</option>
+          <option value="잘 모르겠음">잘 모르겠음</option>
         </select>
       </div>
     `;
 
-    function clearCaptchaInput() {
-      const ci = document.getElementById("captchaInput");
-      if (ci) ci.value = "";
+    function setMode(mode) {
+      const isSell = mode === "sell";
+      // 입력하던 이름/연락처는 전환해도 유지
+      const keepName = document.getElementById("name")?.value || "";
+      const keepPhone = document.getElementById("phone")?.value || "";
+      formContent.innerHTML = isSell ? sellHTML : buyHTML;
+      document.getElementById("name").value = keepName;
+      document.getElementById("phone").value = keepPhone;
+      btnSell.classList.toggle("active", isSell);
+      btnBuy.classList.toggle("active", !isSell);
+      btnSell.setAttribute("aria-pressed", String(isSell));
+      btnBuy.setAttribute("aria-pressed", String(!isSell));
     }
+    btnSell.addEventListener("click", () => setMode("sell"));
+    btnBuy.addEventListener("click", () => setMode("buy"));
 
-    btnSell.addEventListener("click", () => {
-      btnSell.classList.add("active");
-      btnBuy.classList.remove("active");
-      formContent.innerHTML = sellHTML;
-      clearCaptchaInput();
-      generateCaptcha(); // 폼 전환 시 캡차 새로 생성
+    // 다른 페이지에서 index.html?type=buy#consult 로 들어오면 '양수'로 시작
+    const params0 = new URLSearchParams(location.search);
+    setMode(params0.get("type") === "buy" ? "buy" : "sell");
+
+    // 연락처 자동 하이픈
+    formContent.addEventListener("input", (e) => {
+      if (e.target.id !== "phone") return;
+      const d = e.target.value.replace(/\D/g, "").slice(0, 11);
+      e.target.value = d.length < 4 ? d : d.length < 8 ? `${d.slice(0, 3)}-${d.slice(3)}` : `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7)}`;
     });
 
-    btnBuy.addEventListener("click", () => {
-      btnBuy.classList.add("active");
-      btnSell.classList.remove("active");
-      formContent.innerHTML = buyHTML;
-      clearCaptchaInput();
-      generateCaptcha(); // 폼 전환 시 캡차 새로 생성
-    });
+    // 2) 희망 날짜: 오늘 이후 ~ 60일 이내만 선택 (한국 시간 기준)
+    const visitDate = document.getElementById("visitDate");
+    const toYMD = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const today = new Date();
+    visitDate.min = toYMD(today);
+    visitDate.max = toYMD(new Date(today.getTime() + 60 * 86400000));
 
-    // 2. 캡차 생성 (독립 함수 — 토글 시마다 재호출)
+    // 3) 보안코드 (사람 확인용 간이 장치 — 강력한 스팸 차단은 EmailJS 도메인 제한과 함께 사용)
     const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     function generateCaptcha() {
       let c = "";
       for (let i = 0; i < 4; i++) c += chars.charAt(Math.floor(Math.random() * chars.length));
-      const el = document.getElementById("captchaText");
-      if (el) el.innerText = c;
+      document.getElementById("captchaText").innerText = c;
+      document.getElementById("captchaInput").value = "";
     }
-    generateCaptcha(); // 최초 1회
+    generateCaptcha();
 
-    // 3. 폼 제출 로직
-    document.getElementById("consultForm").addEventListener("submit", function(e) {
+    // 4) 제출
+    const msgBox = document.getElementById("submitMsg");
+    const submitBtn = document.getElementById("submitBtn");
+    const showMsg = (text, color) => { msgBox.innerText = text; msgBox.style.color = color; };
+    const ERR = "#b3261e";
+
+    document.getElementById("consultForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      const userCode = document.getElementById("captchaInput").value.toUpperCase();
-      const realCode = document.getElementById("captchaText").innerText;
 
-      if(userCode !== realCode) {
-        alert("보안 코드가 일치하지 않습니다.");
+      // 봇 차단: 숨김 필드가 채워졌으면 조용히 종료
+      if (document.getElementById("website").value) return;
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      if (!name) { showMsg("성함을 입력해 주세요.", ERR); return; }
+      if (!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phone)) { showMsg("연락처를 다시 확인해 주세요. (예: 010-1234-5678)", ERR); return; }
+
+      // 예약 날짜 검사: 과거·주말 불가
+      const dateVal = visitDate.value;
+      if (dateVal) {
+        if (dateVal < visitDate.min || dateVal > visitDate.max) { showMsg("희망 날짜는 오늘부터 60일 이내로 골라주세요.", ERR); return; }
+        const dow = new Date(dateVal + "T00:00:00").getDay();
+        if (dow === 0 || dow === 6) { showMsg("주말은 휴무입니다. 평일 날짜로 골라주세요.", ERR); return; }
+      }
+
+      if (!document.getElementById("privacyAgree").checked) { showMsg("개인정보 수집·이용에 동의해 주셔야 예약할 수 있습니다.", ERR); return; }
+
+      const userCode = document.getElementById("captchaInput").value.trim().toUpperCase();
+      if (userCode !== document.getElementById("captchaText").innerText) {
+        showMsg("보안코드가 일치하지 않습니다. 새 코드로 다시 입력해 주세요.", ERR);
+        generateCaptcha();
         return;
       }
 
+      if (!window.emailjs) { showMsg("❌ 전송 모듈을 불러오지 못했습니다. 010-5555-9156으로 전화 주세요.", ERR); return; }
+
       const type = document.getElementById("type").value;
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
-      
-      let carModel = "";
-      let carNumber = "";
-      let region = "";
-      let eduStatus = "";
+      const isSell = type === "양도 신청";
+      const method = document.querySelector('input[name="method"]:checked').value;
+      const timeVal = document.getElementById("visitTime").value;
+      const dateText = dateVal ? dateVal.slice(5).replace("-", "/") : "날짜 무관";
 
-      if(type === "양도 신청") {
-        carModel = document.getElementById("carModel").value;
-        carNumber = document.getElementById("carNumber").value;
-      } else {
-        region = "부산";
-        eduStatus = document.getElementById("eduStatus").value;
-      }
-
-      const params = { 
-        title: type,
+      const params = {
+        // 제목에 예약 정보까지 넣어, 템플릿 수정 전에도 메일 제목만 보고 파악 가능
+        title: `${type} · ${method} · ${dateText} ${timeVal}`,
         type: type,
-        name: name, 
-        phone: phone, 
-        carModel: carModel, 
-        carNumber: carNumber, 
-        region: region, 
-        eduStatus: eduStatus 
+        name: name,
+        phone: phone,
+        carModel: isSell ? document.getElementById("carModel").value.trim() : "",
+        carNumber: isSell ? document.getElementById("carNumber").value.trim() : "",
+        region: isSell ? "" : "부산",
+        eduStatus: isSell ? "" : document.getElementById("eduStatus").value,
+        method: method,
+        visitDate: dateVal || "날짜 무관",
+        visitTime: timeVal,
       };
 
-      const msgBox = document.getElementById("submitMsg");
-      msgBox.innerText = "전송 중...";
+      submitBtn.disabled = true;
+      showMsg("전송 중...", "#7b665b");
 
       emailjs.send("service_kimtaxi", "template_4yu2gna", params)
         .then(() => {
-          msgBox.innerText = "✅ 접수 완료! 곧 연락드릴게요.";
-          msgBox.style.color = "green";
+          const when = dateVal ? `${dateText} ${timeVal}` : "가장 빠른 시간";
+          showMsg(`✅ 예약 접수 완료! ${when}에 ${method === "방문 상담" ? "방문 일정 확인 연락을" : "연락을"} 드리겠습니다. 기다리시는 동안 아래 블로그·유튜브에서 시세 흐름을 먼저 보셔도 좋습니다.`, "#2e7d32");
           document.getElementById("consultForm").reset();
-          clearCaptchaInput();
-          generateCaptcha(); // 제출 후 캡차 새로 생성
+          setMode(isSell ? "sell" : "buy");
+          formContent.querySelectorAll("input").forEach((el) => { if (el.type !== "hidden") el.value = ""; });
+          generateCaptcha();
         })
         .catch((err) => {
           console.error(err);
-          msgBox.innerText = "❌ 전송 실패. 전화로 문의주세요.";
-          msgBox.style.color = "red";
-        });
+          showMsg("❌ 전송에 실패했습니다. 010-5555-9156으로 전화 주세요.", ERR);
+        })
+        .finally(() => { submitBtn.disabled = false; });
     });
   </script>
 </body>
