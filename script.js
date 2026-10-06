@@ -1,195 +1,191 @@
-// script.js
+// script.js — 김군 개인택시 상담소 공통 스크립트
+//
+// 동작 확인: 반드시 웹서버(호스팅 또는 VS Code Live Server 등)로 열어야 합니다.
+//            파일을 더블클릭(file://)으로 열면 header/footer를 불러오지 못합니다.
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* ================================
-     1) Header / Footer 자동 삽입 + 메뉴 Active
-  ================================ */
-  fetch("header.html")
-    .then((res) => res.text())
-    .then((html) => {
-      document.querySelector("#header").innerHTML = html;
-
-      // 현재 경로에 맞춰 메뉴 active 처리
-      let path = window.location.pathname.split("/").pop();
-      if (!path || path === "" || path === "/" || path.startsWith("?")) {
-        path = "index.html";
-      }
-      path = path.split("?")[0];
-
-      document.querySelectorAll(".nav-menu a").forEach((link) => {
-        if (link.getAttribute("href") === path) {
-          link.classList.add("active");
-        }
-      });
-
-      // ====== 헤더 스크롤 축소 효과 ======
-      const mainHeader = document.querySelector(".main-header");
-      const mobileMenuEl = document.querySelector(".mobile-menu");
-      if (mainHeader) {
-        const onScroll = () => {
-          if (window.scrollY > 40) {
-            mainHeader.classList.add("scrolled");
-            if (mobileMenuEl) mobileMenuEl.style.top = "64px";
-          } else {
-            mainHeader.classList.remove("scrolled");
-            if (mobileMenuEl) mobileMenuEl.style.top = "80px";
-          }
-        };
-        onScroll();
-        window.addEventListener("scroll", onScroll);
-      }
-
-      // ====== 모바일 햄버거 메뉴 토글 ======
-      const hamburger = document.querySelector(".hamburger");
-      const mobileMenu = document.querySelector(".mobile-menu");
-
-      if (hamburger && mobileMenu) {
-        hamburger.addEventListener("click", () => {
-          const isOpen = mobileMenu.classList.toggle("show");
-          hamburger.classList.toggle("active");
-          hamburger.setAttribute("aria-label", isOpen ? "메뉴 닫기" : "메뉴 열기");
-          hamburger.setAttribute("aria-expanded", isOpen);
-        });
-
-        // 키보드(Enter/Space)로도 메뉴 열기
-        hamburger.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            hamburger.click();
-          }
-        });
-
-        mobileMenu.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", () => {
-            mobileMenu.classList.remove("show");
-            hamburger.classList.remove("active");
-            hamburger.setAttribute("aria-label", "메뉴 열기");
-            hamburger.setAttribute("aria-expanded", "false");
-          });
-        });
-      }
-    });
-
-  fetch("footer.html")
-    .then((res) => res.text())
-    .then((html) => {
-      document.querySelector("#footer").innerHTML = html;
-    });
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ================================
-     2) 상담하기 버튼 스크롤 이동 (홈 / CTA 공통)
+     1) Header / Footer 삽입
   ================================ */
-  const consultButtons = document.querySelectorAll(".btn.consult");
-  const consultSection = document.getElementById("consult");
-
-  if (consultSection && consultButtons.length > 0) {
-    consultButtons.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        if (btn.tagName.toLowerCase() === "a") {
-          e.preventDefault();
-        }
-        consultSection.scrollIntoView({ behavior: "smooth" });
+  function loadPartial(url, targetSelector) {
+    const target = document.querySelector(targetSelector);
+    if (!target) return Promise.resolve(null);
+    return fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`${url} 불러오기 실패 (${res.status})`);
+        return res.text();
+      })
+      .then((html) => {
+        target.innerHTML = html;
+        return target;
+      })
+      .catch((err) => {
+        console.error(err);
+        // 최소한의 대체 링크 — 헤더가 안 떠도 연락은 가능하도록
+        target.innerHTML =
+          '<p style="padding:12px 20px;text-align:center;font-size:14px;">' +
+          '<a href="index.html">김군 개인택시 상담소</a> · ' +
+          '<a href="tel:01055559156">010-5555-9156</a></p>';
+        return null;
       });
-    });
   }
 
-  /* ================================
-     3) 실시간 상담 내역 (부드러운 무한 스크롤 + 카드형)
-  ================================ */
-  const list = document.getElementById("fakeList");
-  if (list) {
-    function formatKRDate(offsetDays = 0) {
-      const d = new Date();
-      d.setDate(d.getDate() - offsetDays);
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
-      return `${m}월 ${day}일`;
+  loadPartial("header.html", "#header").then((ok) => {
+    if (!ok) return;
+    initHeader();
+  });
+
+  loadPartial("footer.html", "#footer").then((ok) => {
+    if (!ok) return;
+    const yearEl = document.getElementById("copyYear");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  });
+
+  function initHeader() {
+    // 현재 페이지 메뉴 active
+    let path = window.location.pathname.split("/").pop().split("?")[0];
+    if (!path) path = "index.html";
+    document.querySelectorAll(".nav-menu a, .mobile-menu > a").forEach((link) => {
+      if (link.getAttribute("href") === path) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      }
+    });
+
+    // 스크롤 시 헤더 축소
+    const mainHeader = document.querySelector(".main-header");
+    if (mainHeader) {
+      const onScroll = () => mainHeader.classList.toggle("scrolled", window.scrollY > 40);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
     }
 
-    const fakeConsults = [
-      { offset: 0, label: "최**님",        status: "상담중" },
-      { offset: 0, label: "그랜저 차량",   status: "상담중" },
-      { offset: 0, label: "K5 차량",       status: "상담완료" },
-      { offset: 0, label: "박**님",        status: "상담중" },
-      { offset: 1, label: "김**님",        status: "상담완료" },
-      { offset: 1, label: "소나타 차량",   status: "상담중" },
-      { offset: 1, label: "오**님",        status: "상담중" },
-      { offset: 2, label: "스타렉스 차량", status: "상담완료" },
-      { offset: 2, label: "이**님",        status: "상담중" },
-      { offset: 3, label: "아반떼 차량",   status: "상담중" },
-    ];
+    // 모바일 햄버거 메뉴
+    const hamburger = document.querySelector(".hamburger");
+    const mobileMenu = document.querySelector(".mobile-menu");
+    if (!hamburger || !mobileMenu) return;
 
-    list.innerHTML = "";
-    fakeConsults.forEach((item) => {
-      const li = document.createElement("li");
-      const dateStr = formatKRDate(item.offset);
-      const done = item.status === "상담완료";
+    const setMenu = (open) => {
+      mobileMenu.classList.toggle("show", open);
+      hamburger.classList.toggle("active", open);
+      hamburger.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+      hamburger.setAttribute("aria-expanded", String(open));
+    };
 
-      li.classList.add("consult-item");
-      li.innerHTML = `
-        <div class="consult-left">
-          <span class="consult-date">${dateStr}</span>
-          <span class="consult-name">${item.label}</span>
-        </div>
-        <span class="consult-status ${done ? "done" : "ing"}">
-          ${item.status}
-        </span>
-      `;
-      list.appendChild(li);
+    hamburger.addEventListener("click", () => setMenu(!mobileMenu.classList.contains("show")));
+    mobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setMenu(false);
     });
-
-    list.innerHTML = list.innerHTML + list.innerHTML;
   }
 
   /* ================================
-     4) 등장 애니메이션
+     2) 상담 신청 버튼 → 폼으로 부드럽게 이동 (index.html 안에서만)
   ================================ */
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
+  const consultSection = document.getElementById("consult");
+  if (consultSection) {
+    document.querySelectorAll('.btn.consult[href="#consult"]').forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        consultSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
       });
-    },
-    { threshold: 0.08 }
-  );
-
-  document
-    .querySelectorAll(".fade-up, .about-left, .about-right, .vision-card, .service-card")
-    .forEach((el) => observer.observe(el));
+    });
+  }
 
   /* ================================
-     5) FAQ 아코디언 (faq.html 및 기타 페이지 공통)
-        index.html은 자체 인라인 스크립트로 처리하므로
-        index.html에서는 이 로직이 중복 실행되지 않도록
-        .faq-question에 data-bound 플래그로 중복 바인딩 방지
+     3) 자주 받는 상담 (자동 스크롤 리스트)
+        ※ 기존 '실시간 접수' 목록은 실제 접수 데이터가 아닌
+          고정 데이터에 오늘 날짜를 붙여 보여주던 방식이라
+          기만적 광고 소지가 있어 '상담 주제 안내'로 바꿨습니다.
   ================================ */
-  document.querySelectorAll(".faq-question").forEach((btn) => {
-    if (btn.dataset.bound) return; // 이미 바인딩된 버튼은 건너뜀
+  const list = document.getElementById("topicList");
+  if (list) {
+    const topics = [
+      { tag: "sell", label: "양도", text: "지금 번호판 시세가 얼마인가요?" },
+      { tag: "buy",  label: "양수", text: "법인택시 경력 없어도 양수 가능한가요?" },
+      { tag: "buy",  label: "양수", text: "양수교육은 언제 받는 게 좋을까요?" },
+      { tag: "sell", label: "양도", text: "차량까지 같이 넘기면 얼마나 받나요?" },
+      { tag: "etc",  label: "서류", text: "양도·양수 때 어떤 서류가 필요한가요?" },
+      { tag: "buy",  label: "양수", text: "계약금·잔금 일정은 어떻게 잡나요?" },
+      { tag: "sell", label: "양도", text: "급하게 정리해야 하는데 얼마나 걸리나요?" },
+      { tag: "etc",  label: "기타", text: "미터기·카드단말기 업체 소개 가능한가요?" },
+      { tag: "buy",  label: "양수", text: "조합 가입은 어떻게 진행되나요?" },
+      { tag: "etc",  label: "기타", text: "상담만 받아도 비용이 드나요?" },
+    ];
+
+    const frag = document.createDocumentFragment();
+    topics.forEach((t) => {
+      const li = document.createElement("li");
+      li.className = "consult-item";
+      li.innerHTML = `
+        <div class="consult-left">
+          <span class="consult-name"></span>
+        </div>
+        <span class="consult-tag ${t.tag}"></span>`;
+      li.querySelector(".consult-name").textContent = t.text;
+      li.querySelector(".consult-tag").textContent = t.label;
+      frag.appendChild(li);
+    });
+    list.innerHTML = "";
+    list.appendChild(frag);
+  }
+
+  /* ================================
+     5) 등장 애니메이션
+  ================================ */
+  const fadeEls = document.querySelectorAll(".fade-up");
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+    fadeEls.forEach((el) => observer.observe(el));
+  } else {
+    fadeEls.forEach((el) => el.classList.add("visible"));
+  }
+
+  /* ================================
+     6) FAQ 아코디언 (index.html / faq.html 공통)
+  ================================ */
+  document.querySelectorAll(".faq-question").forEach((btn, idx) => {
+    if (btn.dataset.bound) return;
     btn.dataset.bound = "1";
     btn.setAttribute("type", "button");
+    btn.setAttribute("aria-expanded", "false");
+
+    const item = btn.parentElement;
+    const answer = item.querySelector(".faq-answer");
+    if (answer) {
+      answer.id = answer.id || `faq-answer-${idx}`;
+      btn.setAttribute("aria-controls", answer.id);
+    }
 
     btn.addEventListener("click", () => {
-      const currentItem = btn.parentElement;
-      const currentAnswer = currentItem.querySelector(".faq-answer");
-      const isActive = currentItem.classList.contains("active");
+      const isActive = item.classList.contains("active");
 
-      // 열린 항목 모두 닫기
-      document.querySelectorAll(".faq-item.active").forEach((item) => {
-        item.classList.remove("active");
-        const ans = item.querySelector(".faq-answer");
-        if (ans) ans.style.maxHeight = "0";
+      document.querySelectorAll(".faq-item.active").forEach((openItem) => {
+        openItem.classList.remove("active");
+        const a = openItem.querySelector(".faq-answer");
+        const q = openItem.querySelector(".faq-question");
+        if (a) a.style.maxHeight = "0";
+        if (q) q.setAttribute("aria-expanded", "false");
       });
 
-      // 클릭한 항목이 닫혀 있었으면 열기
-      // requestAnimationFrame: 닫기 처리 후 DOM이 안정된 시점에
-      // scrollHeight를 읽어 정확한 높이 계산
       if (!isActive) {
-        currentItem.classList.add("active");
-        if (currentAnswer) {
+        item.classList.add("active");
+        btn.setAttribute("aria-expanded", "true");
+        if (answer) {
           requestAnimationFrame(() => {
-            currentAnswer.style.maxHeight = currentAnswer.scrollHeight + "px";
+            answer.style.maxHeight = answer.scrollHeight + "px";
           });
         }
       }
