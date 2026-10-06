@@ -463,16 +463,40 @@
       const dateText = dateVal ? dateVal.slice(5).replace("-", "/") : "날짜 무관";
 
       const params = {
-        // 제목에 예약 정보까지 넣어, 템플릿 수정 전에도 메일 제목만 보고 파악 가능
+      const DOW = ["일", "월", "화", "수", "목", "금", "토"];
+      const digits = phone.replace(/\D/g, "");
+      const phoneFmt = digits.length === 11 ? `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`
+                     : digits.length === 10 ? `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}` : phone;
+      const dateLabel = dateVal ? `${dateText}(${DOW[new Date(dateVal + "T00:00:00").getDay()]})` : "날짜 무관";
+      const timeShort = timeVal.split(" ")[0];
+      const typeShort = isSell ? "양도" : "양수";
+      const carModel = isSell ? document.getElementById("carModel").value.trim() : "";
+      const carNumber = isSell ? document.getElementById("carNumber").value.trim() : "";
+      const eduStatus = isSell ? "" : document.getElementById("eduStatus").value;
+      const detailText = isSell
+        ? `차량: ${carModel || "미입력"} / 번호: ${carNumber || "미입력"}`
+        : `양수교육: ${eduStatus}`;
+      const submittedAt = new Intl.DateTimeFormat("ko-KR", {
+        timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit",
+        weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false,
+      }).format(new Date());
+
+      const params = {
+        type_short: typeShort,
+        name: name,
+        phone: phoneFmt,
+        phone_digits: digits,
+        method: method,
+        booking: `${dateLabel} · ${timeVal} · ${method}`,
+        booking_short: dateVal ? `${dateLabel} ${timeShort} ${method}` : `가장 빠른 시간 ${method}`,
+        detail_text: detailText,
+        submitted_at: submittedAt,
         title: `${type} · ${method} · ${dateText} ${timeVal}`,
         type: type,
-        name: name,
-        phone: phone,
-        carModel: isSell ? document.getElementById("carModel").value.trim() : "",
-        carNumber: isSell ? document.getElementById("carNumber").value.trim() : "",
-        region: isSell ? "" : "부산",
-        eduStatus: isSell ? "" : document.getElementById("eduStatus").value,
-        method: method,
+        carModel: carModel,
+        carNumber: carNumber,
+        region: "",
+        eduStatus: eduStatus,
         visitDate: dateVal || "날짜 무관",
         visitTime: timeVal,
       };
