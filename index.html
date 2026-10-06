@@ -341,8 +341,7 @@
     // 0) EmailJS 초기화
     //    ※ 공개키는 원래 노출되는 값입니다. 대신 EmailJS 대시보드 > Account > Security 에서
     //      'Allowed Origins'에 내 도메인만 등록해 두세요(타 사이트에서 무단 발송 방지).
-    //    ※ 이메일 템플릿에 {{method}}, {{visitDate}}, {{visitTime}} 을 추가해야 예약 정보가 본문에 보입니다.
-    //      (추가 전에도 제목 {{title}} 에는 예약 정보가 함께 들어갑니다)
+    //    ※ 메일 양식(EmailJS 템플릿)은 {{booking}}, {{type_short}}, {{detail_text}} 등 아래 params 이름을 씁니다.
     if (window.emailjs) emailjs.init({ publicKey: "2iseJXtljrKVXtYDP" });
 
     // 1) 양도/양수 폼 전환
@@ -462,13 +461,13 @@
       const timeVal = document.getElementById("visitTime").value;
       const dateText = dateVal ? dateVal.slice(5).replace("-", "/") : "날짜 무관";
 
-      const params = {
+      // ── 메일에 보기 좋게 넣을 값 정리 ──
       const DOW = ["일", "월", "화", "수", "목", "금", "토"];
       const digits = phone.replace(/\D/g, "");
       const phoneFmt = digits.length === 11 ? `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`
                      : digits.length === 10 ? `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}` : phone;
       const dateLabel = dateVal ? `${dateText}(${DOW[new Date(dateVal + "T00:00:00").getDay()]})` : "날짜 무관";
-      const timeShort = timeVal.split(" ")[0];
+      const timeShort = timeVal === "시간 무관" ? "" : " " + timeVal.split(" ")[0];   // "오전 (09~12시)" → " 오전"
       const typeShort = isSell ? "양도" : "양수";
       const carModel = isSell ? document.getElementById("carModel").value.trim() : "";
       const carNumber = isSell ? document.getElementById("carNumber").value.trim() : "";
@@ -482,15 +481,17 @@
       }).format(new Date());
 
       const params = {
-        type_short: typeShort,
+        // ▼ 새 메일 양식(EmailJS 템플릿)에서 쓰는 값
+        type_short: typeShort,                                   // 양도 / 양수
         name: name,
-        phone: phoneFmt,
-        phone_digits: digits,
-        method: method,
-        booking: `${dateLabel} · ${timeVal} · ${method}`,
-        booking_short: dateVal ? `${dateLabel} ${timeShort} ${method}` : `가장 빠른 시간 ${method}`,
+        phone: phoneFmt,                                         // 010-1234-5678
+        phone_digits: digits,                                    // 전화·문자 버튼용
+        method: method,                                          // 전화 상담 / 방문 상담 / 카카오톡 상담
+        booking: `${dateLabel} · ${timeVal} · ${method}`,        // 10/07(화) · 오전 (09~12시) · 방문 상담
+        booking_short: dateVal ? `${dateLabel}${timeShort} ${method}` : `가장 빠른 시간 ${method}`,
         detail_text: detailText,
         submitted_at: submittedAt,
+        // ▼ 예전 템플릿 호환용 (템플릿 교체 전에도 메일이 깨지지 않도록 유지)
         title: `${type} · ${method} · ${dateText} ${timeVal}`,
         type: type,
         carModel: carModel,
