@@ -64,12 +64,12 @@
           <!-- 번호판(빈 판) 위에 글자는 HTML로 얹음 → 문구 수정이 쉽고 검색에도 읽힘 -->
           <div class="hero-stage">
             <div class="plate-wrap">
-              <img src="img/plate-blank.webp" class="plate-base" width="1200" height="432" alt="" />
+              <img src="plate-blank.webp" class="plate-base" width="1200" height="432" alt="" />
               <span class="plate-shine" aria-hidden="true"></span>
               <p class="plate-text"><small>부산 양도양수 전문 매매상사</small><strong>김군 개인택시 상담소</strong></p>
             </div>
             <button type="button" class="hero-taxi" aria-label="택시 (눌러 보세요)">
-              <img src="img/taxi-3d.webp" width="720" height="491" alt="" />
+              <img src="taxi-3d.webp" width="720" height="491" alt="" />
             </button>
             <span class="stage-shadow" aria-hidden="true"></span>
           </div>
@@ -119,15 +119,15 @@
 
           <!-- 작은 카드 3개 (3D 이미지) -->
           <div class="bento-card bento-mini">
-            <span class="bento-img"><img src="img/calendar-3d.webp" width="480" height="441" alt="" loading="lazy" /></span>
+            <span class="bento-img"><img src="calendar-3d.webp" width="480" height="441" alt="" loading="lazy" /></span>
             <div><h3>기사님별 진행표</h3><p>자격·예산·희망 시기에 맞춰 계약부터 운행까지 날짜별로 짭니다.</p></div>
           </div>
           <div class="bento-card bento-mini">
-            <span class="bento-img"><img src="img/document-3d.webp" width="480" height="632" alt="" loading="lazy" /></span>
+            <span class="bento-img"><img src="document-3d.webp" width="480" height="632" alt="" loading="lazy" /></span>
             <div><h3>서류·인가 꼼꼼히</h3><p>인가 서류부터 조합 가입까지, 단계가 넘어갈 때마다 먼저 연락드립니다.</p></div>
           </div>
           <div class="bento-card bento-mini">
-            <span class="bento-img"><img src="img/taxi-3d.webp" width="720" height="491" alt="" loading="lazy" /></span>
+            <span class="bento-img"><img src="taxi-3d.webp" width="720" height="491" alt="" loading="lazy" /></span>
             <div><h3>운행 시작까지 동행</h3><p>미터기·카드단말기·블랙박스 업체 연계까지 마지막 단계도 챙깁니다.</p></div>
           </div>
         </div>
@@ -295,8 +295,10 @@
     // 0) EmailJS 초기화 — 스크립트를 defer로 불러오므로 load 이후 초기화
     //    ※ 공개키는 원래 노출되는 값입니다. 대신 EmailJS 대시보드 > Account > Security 에서
     //      'Allowed Origins'에 내 도메인만 등록해 두세요(타 사이트에서 무단 발송 방지).
-    window.addEventListener("load", () => {
-      if (window.emailjs) emailjs.init({ publicKey: "2iseJXtljrKVXtYDP" });
+    const EMAILJS_PUBLIC_KEY = "2iseJXtljrKVXtYDP";
+    // defer 스크립트는 DOMContentLoaded 직전에 실행되므로 이 시점에 초기화 (이미지 로딩을 기다리지 않음)
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.emailjs) emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
     });
 
     // 0-1) 공휴일 (주말 외 휴무일) — ⚠ 매년 12월에 다음 해 날짜를 추가해 주세요 (형식 "YYYY-MM-DD")
@@ -502,7 +504,7 @@
       submitBtn.disabled = true;
       showMsg("전송 중...", "#7b665b");
 
-      emailjs.send("service_kimtaxi", "template_4yu2gna", params)
+      emailjs.send("service_kimtaxi", "template_4yu2gna", params, { publicKey: EMAILJS_PUBLIC_KEY }) // 초기화가 늦어도 전송되도록 키를 함께 전달
         .then(() => {
           const when = dateVal ? `${dateLabel} ${timeVal === "시간 무관" ? "" : timeVal}`.trim() : "가장 빠른 시간";
           showMsg(`✅ 예약 접수 완료! ${when}에 ${method === "방문 상담" ? "방문 일정 확인 연락을" : "연락을"} 드리겠습니다.`, "#2e7d32");
